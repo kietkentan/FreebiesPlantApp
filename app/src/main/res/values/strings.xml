@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Plant App</string>
+    <string name="next">Next</string>
+    <string name="title_intro_1">Identify Plants</string>
+    <string name="title_intro_2">Learn Many Plants Species</string>
+    <string name="title_intro_3">Read Many Articles About Plant</string>
+    <string name="text_intro_1">You can identify the plants you don\'t know through your camera</string>
+    <string name="text_intro_2">Let\'s learn about the many plant species that exist in this world</string>
+    <string name="text_intro_3">Let\'s learn more about beautiful plants and read many articles about plants and gardening</string>
+    <string name="aboutInfo">From HCMC-VNU</string>
+    <string name="hello">Hello</string>
+    <string name="login_description">Let’s Learn More About Plants</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="remember_account">Remember me</string>
+    <string name="forgot_password_">Forgot Password?</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="login">Login</string>
+    <string name="not_account">Don’t Have Account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="new_account">New Account</string>
+    <string name="create_account">Let\'s create new account</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="change_password">Change Password</string>
+    <string name="sign_up_new_account">Sign up for a new account</string>
+    <string name="back_to_sign_in">Back to sign in</string>
+    <string name="sent_mail_reset_successfully">Check your email. Then click on the link in the mailbox to change the password again.</string>
+    <string name="full_name">Full Name</string>
+    <string name="name_not_empty">Name must not be empty</string>
+    <string name="email_not_empty">Email must not be empty</string>
+    <string name="email_invalid">Invalid email</string>
+    <string name="password_not_empty">Password must not be empty</string>
+    <string name="password_invalid">Invalid password</string>
+    <string name="password_not_same">Passwords are not the same</string>
+
+</resources>
