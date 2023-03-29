@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.module.User
+import com.khtn.freebies.module.UserLog
 import com.khtn.freebies.repo.AuthRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -41,12 +42,14 @@ class AuthViewModel @Inject constructor(
 
     fun login(
         email: String,
-        password: String
+        password: String,
+        save: Boolean
     ) {
         _login.value = UiState.Loading
         repo.loginUser(
             email,
-            password
+            password,
+            save
         ) {
             _login.value = it
         }
@@ -65,5 +68,9 @@ class AuthViewModel @Inject constructor(
 
     fun getSession(result: (User?) -> Unit){
         repo.getSession(result)
+    }
+
+    fun getLoginInfo(result: (UserLog?) -> Unit){
+        repo.getLoginInfo(result)
     }
 }

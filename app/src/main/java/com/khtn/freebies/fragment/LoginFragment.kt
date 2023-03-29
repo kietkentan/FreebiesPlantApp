@@ -12,6 +12,7 @@ import com.khtn.freebies.R
 import com.khtn.freebies.activity.MainActivity
 import com.khtn.freebies.databinding.FragmentLoginBinding
 import com.khtn.freebies.helper.*
+import com.khtn.freebies.module.UserLog
 import com.khtn.freebies.viewmodel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,8 +55,15 @@ class LoginFragment: Fragment(), View.OnClickListener{
 
     override fun onStart() {
         super.onStart()
-        viewModel.getSession { user ->
-            if (user != null) startMainActivity()
+        viewModel.getLoginInfo { user ->
+            if (user != null) {
+                setUserLog(user)
+                viewModel.login(
+                    email = user.email,
+                    password = user.password,
+                    save = true
+                )
+            }
         }
     }
 
@@ -111,13 +119,19 @@ class LoginFragment: Fragment(), View.OnClickListener{
         return isValid
     }
 
+    private fun setUserLog(userLog: UserLog) {
+        binding.txtInputUsername.editText?.setText(userLog.email)
+        binding.txtInputPassword.editText?.setText(userLog.password)
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.ib_exit_login -> activity?.finish()
 
             R.id.btn_login -> if (validation()) viewModel.login(
                 email = binding.txtInputUsername.editText?.text.toString(),
-                password = binding.txtInputPassword.editText?.text.toString()
+                password = binding.txtInputPassword.editText?.text.toString(),
+                save = binding.cbRememberAccount.isChecked
             )
 
             R.id.tv_forgot_password -> findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)

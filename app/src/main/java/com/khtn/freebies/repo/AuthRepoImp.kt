@@ -12,6 +12,7 @@ import com.khtn.freebies.helper.FireStoreCollection
 import com.khtn.freebies.helper.SharedPrefConstants
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.module.User
+import com.khtn.freebies.module.UserLog
 
 class AuthRepoImp (
     private val auth: FirebaseAuth,
@@ -71,7 +72,7 @@ class AuthRepoImp (
             }
     }
 
-    override fun loginUser(email: String, password: String, result: (UiState<String>) -> Unit) {
+    override fun loginUser(email: String, password: String, save: Boolean, result: (UiState<String>) -> Unit) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -81,6 +82,12 @@ class AuthRepoImp (
                         else
                             result.invoke(UiState.Success("Login successfully!"))
                     }
+                    if (save)
+                        appPreferences.edit().putString(SharedPrefConstants.LOGIN_INFO, gson.toJson(UserLog(
+                            email = email,
+                            password = password
+                        )))
+                            .apply()
                 }
             }.addOnFailureListener {
                 result.invoke(UiState.Failure("Authentication failed, Check email and password"))
@@ -127,6 +134,16 @@ class AuthRepoImp (
             result.invoke(null)
         else {
             val user = gson.fromJson(user_str, User::class.java)
+            result.invoke(user)
+        }
+    }
+
+    override fun getLoginInfo(result: (UserLog?) -> Unit) {
+        val user_str = appPreferences.getString(SharedPrefConstants.LOGIN_INFO, null)
+        if (user_str == null)
+            result.invoke(null)
+        else {
+            val user = gson.fromJson(user_str, UserLog::class.java)
             result.invoke(user)
         }
     }
