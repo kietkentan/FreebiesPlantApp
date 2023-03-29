@@ -1,7 +1,7 @@
 package com.khtn.freebies.helper
 
 object FireStoreCollection{
-    const val NOTE = "note"
+    const val PLANT_TYPE = "plant_type"
     const val USER = "user"
 }
 

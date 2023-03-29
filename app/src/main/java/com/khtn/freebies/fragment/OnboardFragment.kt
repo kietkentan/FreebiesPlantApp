@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.khtn.freebies.R
 import com.khtn.freebies.databinding.FragmentOnboardBinding
 import com.khtn.freebies.module.OnboardItems
+import com.khtn.freebies.viewmodel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

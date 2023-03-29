@@ -3,11 +3,9 @@ package com.khtn.freebies.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.view.size
 import androidx.viewpager2.widget.ViewPager2
 import com.khtn.freebies.R
 import com.khtn.freebies.adapter.OnboardAdapter
@@ -73,15 +71,15 @@ class OnboardActivity : AppCompatActivity(), OnClickListener {
     }
 
     private fun checkIntroPosition() {
-        if (currentPage == 2) onSigIn() else onNextIntro(currentPage)
+        if (currentPage == 2) onSigIn() else onNextIntro()
     }
 
-    private fun onNextIntro(currentPage : Int) {
+    private fun onNextIntro() {
         viewPagerIntro.setCurrentItem(currentPage + 1, true)
     }
 
     private fun onSigIn() {
-        val intent = Intent(this@OnboardActivity, MainActivity::class.java)
+        val intent = Intent(this@OnboardActivity, SetupUserActivity::class.java)
         startActivity(intent)
         finish()
     }

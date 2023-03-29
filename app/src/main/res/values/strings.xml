@@ -34,5 +34,15 @@
     <string name="password_not_empty">Password must not be empty</string>
     <string name="password_invalid">Invalid password</string>
     <string name="password_not_same">Passwords are not the same</string>
+    <string name="profile">PROFILE</string>
+    <string name="home">HOME</string>
+    <string name="intro_3">Let’s Learn More About Plants</string>
+    <string name="search_for_plants">Search For Plants</string>
+    <string name="identify">IDENTIFY</string>
+    <string name="species">SPECIES</string>
+    <string name="articles">ARTICLES</string>
+    <string name="plant_types">Plant Types</string>
+    <string name="photography">Photography</string>
+    <string name="quantity_types_of_plants">Types of Plants</string>
 
 </resources>

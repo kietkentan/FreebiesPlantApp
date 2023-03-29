@@ -2,11 +2,12 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
-    id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
-apply plugin: 'kotlin-kapt'
+apply plugin: 'com.android.application'
 
 android {
     namespace 'com.khtn.freebies'
@@ -75,26 +76,24 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.6.0"
     implementation "com.squareup.retrofit2:converter-gson:2.6.0"
 
-    // Kotlin Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
-
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 
     // Dagger Hilt
-    implementation 'com.google.dagger:hilt-android:2.40.5'
-    annotationProcessor 'com.google.dagger:hilt-android-compiler:2.40.5'
-    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
-    annotationProcessor 'androidx.hilt:hilt-compiler:1.0.0'
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt 'com.google.dagger:hilt-compiler:2.44'
 
+    // Shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
-    // Android Room
-    implementation "androidx.room:room-runtime:2.6.0-alpha01"
-    implementation "androidx.room:room-ktx:2.6.0-alpha01"
-    annotationProcessor "androidx.room:room-compiler:2.6.0-alpha01"
+    // Picasso load image into ImageView
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
 
 hilt {
     enableAggregatingTask = true
+}
+
+kapt {
+    correctErrorTypes = true
 }

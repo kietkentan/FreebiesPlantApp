@@ -1,6 +1,7 @@
 package com.khtn.freebies.repo
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -19,30 +20,25 @@ class AuthRepoImp (
     private val gson: Gson
 ) : AuthRepo {
     override fun registerUser(
-        email: String,
         password: String,
         user: User,
         result: (UiState<String>) -> Unit
     ) {
-        auth.createUserWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(user.email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     user.id = it.result.user?.uid ?: ""
+                    Log.i("TAG_U", "registerUser: ${user.id}")
                     updateUserInfo(user) { state ->
-                        when(state){
-                            is UiState.Success -> {
-                                storeSession(id = it.result.user?.uid ?: "") { it ->
-                                    if (it == null)
-                                        result.invoke(UiState.Failure("User register successfully but session failed to store"))
-                                    else
-                                        result.invoke(UiState.Success("User register successfully!"))
-                                }
+                        if (state is UiState.Success) {
+                            storeSession(id = it.result.user?.uid ?: "") { it ->
+                                if (it == null)
+                                    result.invoke(UiState.Failure("User register successfully but session failed to store"))
+                                else
+                                    result.invoke(UiState.Success("User register successfully!"))
                             }
-
-                            is UiState.Failure -> result.invoke(UiState.Failure(state.error))
-
-                            is UiState.Loading -> TODO()
                         }
+                        else if (state is UiState.Failure) result.invoke(UiState.Failure(state.error))
                     }
                 } else {
                     try {
@@ -130,7 +126,7 @@ class AuthRepoImp (
         if (user_str == null)
             result.invoke(null)
         else {
-            val user = gson.fromJson(user_str,User::class.java)
+            val user = gson.fromJson(user_str, User::class.java)
             result.invoke(user)
         }
     }

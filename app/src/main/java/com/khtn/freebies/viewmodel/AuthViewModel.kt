@@ -27,13 +27,11 @@ class AuthViewModel @Inject constructor(
         get() = _forgotPassword
 
     fun register(
-        email: String,
         password: String,
         user: User
     ) {
         _register.value = UiState.Loading
         repo.registerUser(
-            email = email,
             password = password,
             user = user
         ) {

@@ -10,6 +10,7 @@ import androidx.preference.PreferenceManager
 import com.khtn.freebies.R
 import com.khtn.freebies.helper.checkAppStart
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Objects
 import java.util.Timer
 import kotlin.concurrent.schedule
 
@@ -27,22 +28,17 @@ class SplashActivity : AppCompatActivity() {
         Log.d("TAG_U", "onCheck: $str")
 
         Timer().schedule(2000){
-            startOnboardActivity()
-//        when (str.toString()) {
-//            "NORMAL" -> startMainActivity()
-//            "FIRST_TIME", "FIRST_TIME_VERSION" -> startOnboardActivity()
-//        }
+            when (str.toString()) {
+                "NORMAL" -> startActivity(SetupUserActivity::class.java)
+
+                "FIRST_TIME", "FIRST_TIME_VERSION" -> startActivity(OnboardActivity::class.java)
+            }
             finish()
         }
     }
 
-    private fun startOnboardActivity() {
-        val intent = Intent(this@SplashActivity, OnboardActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun startMainActivity() {
-        val intent = Intent(this@SplashActivity, MainActivity::class.java)
+    private fun startActivity(clazz: Class<*>) {
+        val intent = Intent(this@SplashActivity, clazz)
         startActivity(intent)
     }
 }
