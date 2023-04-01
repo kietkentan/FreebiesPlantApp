@@ -9,8 +9,8 @@
     android:layout_marginHorizontal="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="300dp"
-        android:layout_height="160dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/iv_plant_type"

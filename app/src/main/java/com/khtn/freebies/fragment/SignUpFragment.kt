@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SignUpFragment : Fragment(), View.OnClickListener {
     private lateinit var binding : FragmentSignUpBinding
-    private val viewModel: AuthViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,7 +63,7 @@ class SignUpFragment : Fragment(), View.OnClickListener {
     }
 
     private fun observer() {
-        viewModel.register.observe(viewLifecycleOwner) { state ->
+        authViewModel.register.observe(viewLifecycleOwner) { state ->
             when(state){
                 is UiState.Loading -> {
                     binding.btnSignUp.text = ""
@@ -145,7 +145,7 @@ class SignUpFragment : Fragment(), View.OnClickListener {
         when (v?.id) {
             R.id.ib_exit_sign_up, R.id.tv_go_to_login -> findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
 
-            R.id.btn_sign_up -> if (validation()) viewModel.register(
+            R.id.btn_sign_up -> if (validation()) authViewModel.register(
                 password = binding.txtInputPassword.editText?.text.toString(),
                 getUserObj()
             )

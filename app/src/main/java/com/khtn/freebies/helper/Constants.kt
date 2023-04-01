@@ -1,12 +1,14 @@
 package com.khtn.freebies.helper
 
-object FireStoreCollection{
+object FireStoreCollection {
     const val PLANT_TYPE = "plant_type"
+    const val SPECIES = "species"
     const val USER = "user"
+    const val ACCOUNT_SETTING = "user_account_setting"
 }
 
-object FireDatabase{
-    const val TASK = "task"
+object FireDatabase {
+    const val PLANT = "plant"
 }
 
 object FireStoreDocumentField {
@@ -17,6 +19,7 @@ object FireStoreDocumentField {
 object SharedPrefConstants {
     const val LOCAL_SHARED_PREF = "local_shared_pref"
     const val USER_SESSION = "user_session"
+    const val ACCOUNT_SETTING_SESSION = "account_setting_session"
     const val LOGIN_INFO = "login_info"
 }
 

@@ -6,13 +6,14 @@ import androidx.lifecycle.ViewModel
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.module.User
 import com.khtn.freebies.module.UserLog
+import com.khtn.freebies.repo.AccountSettingRepo
 import com.khtn.freebies.repo.AuthRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val repo: AuthRepo
+    private val authRepo: AuthRepo,
 ): ViewModel() {
 
     private val _register = MutableLiveData<UiState<String>>()
@@ -32,7 +33,7 @@ class AuthViewModel @Inject constructor(
         user: User
     ) {
         _register.value = UiState.Loading
-        repo.registerUser(
+        authRepo.registerUser(
             password = password,
             user = user
         ) {
@@ -46,7 +47,7 @@ class AuthViewModel @Inject constructor(
         save: Boolean
     ) {
         _login.value = UiState.Loading
-        repo.loginUser(
+        authRepo.loginUser(
             email,
             password,
             save
@@ -57,20 +58,20 @@ class AuthViewModel @Inject constructor(
 
     fun forgotPassword(email: String) {
         _forgotPassword.value = UiState.Loading
-        repo.forgotPassword(email){
+        authRepo.forgotPassword(email){
             _forgotPassword.value = it
         }
     }
 
     fun logout(result: () -> Unit){
-        repo.logout(result)
+        authRepo.logout(result)
     }
 
     fun getSession(result: (User?) -> Unit){
-        repo.getSession(result)
+        authRepo.getSession(result)
     }
 
     fun getLoginInfo(result: (UserLog?) -> Unit){
-        repo.getLoginInfo(result)
+        authRepo.getLoginInfo(result)
     }
 }

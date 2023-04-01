@@ -7,14 +7,19 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.khtn.freebies.fragment.OnboardFragment
 import com.khtn.freebies.module.OnboardItems
 
-class OnboardAdapter(list : List<OnboardItems>, manager: FragmentManager, lifecycle : Lifecycle) : FragmentStateAdapter(manager, lifecycle) {
-    private val items = list
-
+class OnboardAdapter(
+    private val list : List<OnboardItems>,
+    manager: FragmentManager,
+    lifecycle : Lifecycle
+) : FragmentStateAdapter(
+    manager,
+    lifecycle
+) {
     override fun getItemCount(): Int {
-        return items.size
+        return list.size
     }
 
     override fun createFragment(position: Int): Fragment {
-        return OnboardFragment(items[position])
+        return OnboardFragment(list[position])
     }
 }

@@ -33,7 +33,7 @@ class PlantTypeAdapter(
         return list.size
     }
 
-    inner class MyViewHolder(private val binding: ItemPlantTypeBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MyViewHolder(private val binding: ItemPlantTypeBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PlantType){
             Picasso.get().load(item.image).into(binding.ivPlantType)
             binding.tvPlantType.text = item.name

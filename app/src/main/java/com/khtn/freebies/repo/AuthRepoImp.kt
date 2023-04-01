@@ -1,7 +1,6 @@
 package com.khtn.freebies.repo
 
 import android.content.SharedPreferences
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -12,6 +11,7 @@ import com.khtn.freebies.helper.FireStoreCollection
 import com.khtn.freebies.helper.SharedPrefConstants
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.module.User
+import com.khtn.freebies.module.UserAccountSetting
 import com.khtn.freebies.module.UserLog
 
 class AuthRepoImp (
@@ -29,14 +29,20 @@ class AuthRepoImp (
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     user.id = it.result.user?.uid ?: ""
-                    Log.i("TAG_U", "registerUser: ${user.id}")
+
                     updateUserInfo(user) { state ->
                         if (state is UiState.Success) {
-                            storeSession(id = it.result.user?.uid ?: "") { it ->
-                                if (it == null)
-                                    result.invoke(UiState.Failure("User register successfully but session failed to store"))
-                                else
-                                    result.invoke(UiState.Success("User register successfully!"))
+                            createSetting(
+                                id = it.result.user?.uid ?: "",
+                                UserAccountSetting(display_name = user.name)
+                            ) { state1 ->
+                                if (state1 is UiState.Success)
+                                    storeSession(id = it.result.user?.uid ?: "") { it1 ->
+                                        if (it1 == null)
+                                            result.invoke(UiState.Failure("User register successfully but session failed to store"))
+                                        else
+                                            result.invoke(UiState.Success("User register successfully!"))
+                                    }
                             }
                         }
                         else if (state is UiState.Failure) result.invoke(UiState.Failure(state.error))
@@ -60,7 +66,10 @@ class AuthRepoImp (
             }
     }
 
-    override fun updateUserInfo(user: User, result: (UiState<String>) -> Unit) {
+    override fun updateUserInfo(
+        user: User,
+        result: (UiState<String>) -> Unit
+    ) {
         val document = database.collection(FireStoreCollection.USER).document(user.id)
         document
             .set(user)
@@ -72,7 +81,28 @@ class AuthRepoImp (
             }
     }
 
-    override fun loginUser(email: String, password: String, save: Boolean, result: (UiState<String>) -> Unit) {
+    override fun createSetting(
+        id: String,
+        accountSetting: UserAccountSetting,
+        result: (UiState<String>) -> Unit
+    ) {
+        val document = database.collection(FireStoreCollection.ACCOUNT_SETTING).document(id)
+        document
+            .set(accountSetting)
+            .addOnSuccessListener {
+                result.invoke(UiState.Success("User has been update successfully"))
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
+    }
+
+    override fun loginUser(
+        email: String,
+        password: String,
+        save: Boolean,
+        result: (UiState<String>) -> Unit
+    ) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -94,7 +124,10 @@ class AuthRepoImp (
             }
     }
 
-    override fun forgotPassword(email: String, result: (UiState<String>) -> Unit) {
+    override fun forgotPassword(
+        email: String,
+        result: (UiState<String>) -> Unit
+    ) {
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful)
@@ -109,10 +142,14 @@ class AuthRepoImp (
     override fun logout(result: () -> Unit) {
         auth.signOut()
         appPreferences.edit().putString(SharedPrefConstants.USER_SESSION, null).apply()
+        appPreferences.edit().putString(SharedPrefConstants.ACCOUNT_SETTING_SESSION, null).apply()
         result.invoke()
     }
 
-    override fun storeSession(id: String, result: (User?) -> Unit) {
+    override fun storeSession(
+        id: String,
+        result: (User?) -> Unit
+    ) {
         database.collection(FireStoreCollection.USER).document(id)
             .get()
             .addOnCompleteListener {
@@ -139,11 +176,11 @@ class AuthRepoImp (
     }
 
     override fun getLoginInfo(result: (UserLog?) -> Unit) {
-        val user_str = appPreferences.getString(SharedPrefConstants.LOGIN_INFO, null)
-        if (user_str == null)
+        val log_str = appPreferences.getString(SharedPrefConstants.LOGIN_INFO, null)
+        if (log_str == null)
             result.invoke(null)
         else {
-            val user = gson.fromJson(user_str, UserLog::class.java)
+            val user = gson.fromJson(log_str, UserLog::class.java)
             result.invoke(user)
         }
     }

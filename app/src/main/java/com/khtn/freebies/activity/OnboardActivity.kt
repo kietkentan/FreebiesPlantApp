@@ -5,19 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
-import androidx.appcompat.widget.AppCompatButton
 import androidx.viewpager2.widget.ViewPager2
 import com.khtn.freebies.R
 import com.khtn.freebies.adapter.OnboardAdapter
+import com.khtn.freebies.databinding.ActivityOnboardBinding
 import com.khtn.freebies.module.OnboardItems
 import dagger.hilt.android.AndroidEntryPoint
-import me.relex.circleindicator.CircleIndicator3
 
 @AndroidEntryPoint
 class OnboardActivity : AppCompatActivity(), OnClickListener {
-    private lateinit var viewPagerIntro : ViewPager2
-    private lateinit var circleIndicator : CircleIndicator3
-    private lateinit var btnNext : AppCompatButton
+    private lateinit var binding: ActivityOnboardBinding
     private val list : List<OnboardItems> = OnboardItems.getData()
 
     private val SIZE = list.size
@@ -26,22 +23,18 @@ class OnboardActivity : AppCompatActivity(), OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_onboard)
+        binding = ActivityOnboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        viewPagerIntro = findViewById(R.id.view_pager_onboard)
-        circleIndicator = findViewById(R.id.circle_indicator)
-        btnNext = findViewById(R.id.btn_next)
+        binding.viewPagerOnboard.adapter = OnboardAdapter(list, supportFragmentManager, lifecycle)
+        binding.circleIndicator.setViewPager(binding.viewPagerOnboard)
 
-        viewPagerIntro.adapter = OnboardAdapter(list, supportFragmentManager, lifecycle)
-        viewPagerIntro.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding.viewPagerOnboard.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 currentPage = position
 
-                when (position) {
-                    2 -> btnNext.text = getString(R.string.login)
-                    else -> btnNext.text = getString(R.string.next)
-                }
+                binding.btnNext.text = if (position == 2) getString(R.string.login) else getString(R.string.next)
             }
 
             @Suppress("KotlinConstantConditions")
@@ -52,16 +45,14 @@ class OnboardActivity : AppCompatActivity(), OnClickListener {
                     // used individualy to detect end or start of pages
                     && previousState == ViewPager2.SCROLL_STATE_DRAGGING // from    DRAGGING
                     && state == ViewPager2.SCROLL_STATE_IDLE) {          // to      IDLE
-                    //overscroll performed. do your work here
+                    //overscroll performed. work here
                     onSigIn()
                 }
                 previousState = state
             }
         })
 
-        circleIndicator.setViewPager(viewPagerIntro)
-
-        btnNext.setOnClickListener(this@OnboardActivity)
+        binding.btnNext.setOnClickListener(this@OnboardActivity)
     }
 
     override fun onClick(v: View?) {
@@ -75,7 +66,7 @@ class OnboardActivity : AppCompatActivity(), OnClickListener {
     }
 
     private fun onNextIntro() {
-        viewPagerIntro.setCurrentItem(currentPage + 1, true)
+        binding.viewPagerOnboard.setCurrentItem(currentPage + 1, true)
     }
 
     private fun onSigIn() {

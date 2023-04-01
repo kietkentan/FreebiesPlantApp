@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 
 fun View.hide(){
     visibility = View.GONE

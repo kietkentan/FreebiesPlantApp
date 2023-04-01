@@ -4,4 +4,12 @@
         <item name="cornerSize">50%</item>
         <item name="cornerFamily">rounded</item>
     </style>
+
+    <style name="alphabetTextView">
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_width">20dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_hint</item>
+    </style>
 </resources>

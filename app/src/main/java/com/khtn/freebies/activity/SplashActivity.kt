@@ -10,7 +10,6 @@ import androidx.preference.PreferenceManager
 import com.khtn.freebies.R
 import com.khtn.freebies.helper.checkAppStart
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Objects
 import java.util.Timer
 import kotlin.concurrent.schedule
 

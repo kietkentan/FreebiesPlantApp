@@ -122,6 +122,7 @@ class LoginFragment: Fragment(), View.OnClickListener{
     private fun setUserLog(userLog: UserLog) {
         binding.txtInputUsername.editText?.setText(userLog.email)
         binding.txtInputPassword.editText?.setText(userLog.password)
+        binding.cbRememberAccount.isChecked = true
     }
 
     override fun onClick(v: View?) {

@@ -14,15 +14,21 @@
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:background="@drawable/background_sort_info"
-            android:paddingHorizontal="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/background_sort_info"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:paddingHorizontal="20dp"
                 android:layout_gravity="center_vertical">
 
                 <LinearLayout
@@ -57,7 +63,7 @@
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_launcher"
+                    android:background="@mipmap/ic_launcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -107,7 +113,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="@string/identify"
+                        android:text="@string/identify_uppercase"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         tools:ignore="TextContrastCheck" />
@@ -138,7 +144,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="@string/species"
+                        android:text="@string/species_uppercase"
                         android:textColor="@color/background_button"
                         android:textSize="12sp"
                         tools:ignore="TextContrastCheck" />
@@ -167,7 +173,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="@string/articles"
+                        android:text="@string/articles_uppercase"
                         android:textColor="@color/background_button"
                         android:textSize="12sp"
                         tools:ignore="TextContrastCheck" />
@@ -192,9 +198,27 @@
                     android:id="@+id/rec_plant_type"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
+                    android:visibility="gone"
                     android:orientation="horizontal"
                     android:layout_marginHorizontal="-5dp"
                     android:layout_marginVertical="10dp"/>
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_plant_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginHorizontal="-5dp"
+                    android:layout_marginVertical="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <include layout="@layout/shimmer_item_plant_type"/>
+
+                        <include layout="@layout/shimmer_item_plant_type"/>
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -213,7 +237,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/editText"
+            android:id="@+id/tv_start_search"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginHorizontal="20dp"
@@ -225,7 +249,6 @@
             android:hint="@string/search_for_plants"
             android:importantForAutofill="no"
             android:paddingHorizontal="25dp"
-            android:textColor="@color/black"
             android:textColorHint="@color/text_hint"
             android:textSize="14sp"
             android:elevation="5dp"

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.SpeciesFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background_sort_info"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/ib_exit_species"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white"
+            tools:ignore="ContentDescription,TouchTargetSizeCheck,SpeakableTextPresentCheck,ImageContrastCheck" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/species"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold|normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingEnd="10dp"
+        android:layout_marginTop="45dp"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="RtlSymmetry,UselessLeaf">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rec_species_alphabet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="28dip" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="28dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
+
+                <TextView
+                    android:id="@+id/Other"
+                    style="@style/alphabetTextView"
+                    android:tag="#"
+                    android:text="#" />
+
+                <TextView
+                    android:id="@+id/tv_A"
+                    style="@style/alphabetTextView"
+                    android:tag="A"
+                    android:text="A" />
+
+                <TextView
+                    android:id="@+id/tv_B"
+                    style="@style/alphabetTextView"
+                    android:tag="B"
+                    android:text="B" />
+
+                <TextView
+                    android:id="@+id/tv_C"
+                    style="@style/alphabetTextView"
+                    android:tag="C"
+                    android:text="C" />
+
+                <TextView
+                    android:id="@+id/tv_D"
+                    style="@style/alphabetTextView"
+                    android:tag="D"
+                    android:text="D" />
+
+                <TextView
+                    android:id="@+id/tv_E"
+                    style="@style/alphabetTextView"
+                    android:tag="E"
+                    android:text="E" />
+
+                <TextView
+                    android:id="@+id/tv_F"
+                    style="@style/alphabetTextView"
+                    android:tag="F"
+                    android:text="F" />
+
+                <TextView
+                    android:id="@+id/tv_G"
+                    style="@style/alphabetTextView"
+                    android:tag="G"
+                    android:text="G" />
+
+                <TextView
+                    android:id="@+id/tv_H"
+                    style="@style/alphabetTextView"
+                    android:tag="H"
+                    android:text="H" />
+
+                <TextView
+                    android:id="@+id/tv_I"
+                    style="@style/alphabetTextView"
+                    android:tag="I"
+                    android:text="I" />
+
+                <TextView
+                    android:id="@+id/tv_J"
+                    style="@style/alphabetTextView"
+                    android:tag="J"
+                    android:text="J" />
+
+                <TextView
+                    android:id="@+id/tv_K"
+                    style="@style/alphabetTextView"
+                    android:tag="K"
+                    android:text="K" />
+
+                <TextView
+                    android:id="@+id/tv_L"
+                    style="@style/alphabetTextView"
+                    android:tag="L"
+                    android:text="L" />
+
+                <TextView
+                    android:id="@+id/tv_M"
+                    style="@style/alphabetTextView"
+                    android:tag="M"
+                    android:text="M" />
+
+                <TextView
+                    android:id="@+id/tv_N"
+                    style="@style/alphabetTextView"
+                    android:tag="N"
+                    android:text="N" />
+
+                <TextView
+                    android:id="@+id/tv_O"
+                    style="@style/alphabetTextView"
+                    android:tag="O"
+                    android:text="O" />
+
+                <TextView
+                    android:id="@+id/tv_P"
+                    style="@style/alphabetTextView"
+                    android:tag="P"
+                    android:text="P" />
+
+                <TextView
+                    android:id="@+id/tv_Q"
+                    style="@style/alphabetTextView"
+                    android:tag="Q"
+                    android:text="Q" />
+
+                <TextView
+                    android:id="@+id/tv_R"
+                    style="@style/alphabetTextView"
+                    android:tag="R"
+                    android:text="R" />
+
+                <TextView
+                    android:id="@+id/tv_S"
+                    style="@style/alphabetTextView"
+                    android:tag="S"
+                    android:text="S" />
+
+                <TextView
+                    android:id="@+id/tv_T"
+                    style="@style/alphabetTextView"
+                    android:tag="T"
+                    android:text="T" />
+
+                <TextView
+                    android:id="@+id/tv_U"
+                    style="@style/alphabetTextView"
+                    android:tag="U"
+                    android:text="U" />
+
+                <TextView
+                    android:id="@+id/tv_V"
+                    style="@style/alphabetTextView"
+                    android:tag="V"
+                    android:text="V" />
+
+                <TextView
+                    android:id="@+id/tv_W"
+                    style="@style/alphabetTextView"
+                    android:tag="W"
+                    android:text="W" />
+
+                <TextView
+                    android:id="@+id/tv_X"
+                    style="@style/alphabetTextView"
+                    android:tag="X"
+                    android:text="X" />
+
+                <TextView
+                    android:id="@+id/tv_Y"
+                    style="@style/alphabetTextView"
+                    android:tag="Y"
+                    android:text="Y" />
+
+                <TextView
+                    android:id="@+id/tv_Z"
+                    style="@style/alphabetTextView"
+                    android:tag="Z"
+                    android:text="Z" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/edt_search_species"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/custom_edt_search"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="20dp"
+        android:elevation="5dp"
+        android:maxLines="1"
+        android:inputType="text"
+        android:gravity="center_vertical"
+        android:hint="@string/search_for_species"
+        android:importantForAutofill="no"
+        android:paddingHorizontal="25dp"
+        android:layout_marginTop="-25dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/text_hint"
+        android:textSize="14sp"
+        app:drawableTint="@color/text_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck,TextFields,UseCompatTextViewDrawableXml" />
+
+    <TextView
+        android:id="@+id/tv_show_alphabet"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="#"
+        android:background="@drawable/bg_circle_hint"
+        android:layout_marginTop="208dp"
+        android:layout_marginEnd="50dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
