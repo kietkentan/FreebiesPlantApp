@@ -12,6 +12,8 @@ import com.khtn.freebies.R
 import com.khtn.freebies.adapter.PlantItemAdapter
 import com.khtn.freebies.databinding.FragmentPlantsListBinding
 import com.khtn.freebies.helper.UiState
+import com.khtn.freebies.helper.hide
+import com.khtn.freebies.helper.show
 import com.khtn.freebies.helper.toast
 import com.khtn.freebies.module.Species
 import com.khtn.freebies.viewmodel.PlantViewModel
@@ -23,7 +25,11 @@ class PlantsListFragment : Fragment() {
     private val viewModel: PlantViewModel by viewModels()
     private val adapter by lazy {
         PlantItemAdapter(
-            onItemClick = { plant ->  }
+            onItemClick = { plant ->
+                findNavController().navigate(R.id.action_plantsListFragment_to_plantDetailFragment, Bundle().apply {
+                    putParcelable("plant", plant)
+                })
+            }
         )
     }
 
@@ -57,7 +63,7 @@ class PlantsListFragment : Fragment() {
 
         binding.ibExitPlants.setOnClickListener {
             requireActivity().onContentChanged()
-            findNavController().navigate(R.id.action_plantsListFragment_to_speciesFragment)
+            requireActivity().onBackPressed()
         }
     }
 
@@ -65,14 +71,17 @@ class PlantsListFragment : Fragment() {
         viewModel.plans.observe(viewLifecycleOwner) { state ->
             when(state){
                 is UiState.Loading -> {
-                    //binding.progressBar.show()
+                    binding.recPlant.hide()
+                    binding.shimmerPlantList.show()
+                    binding.shimmerPlantList.startShimmer()
                 }
                 is UiState.Failure -> {
-                    //binding.progressBar.hide()
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    //binding.progressBar.hide()
+                    binding.shimmerPlantList.stopShimmer()
+                    binding.shimmerPlantList.hide()
+                    binding.recPlant.show()
                     adapter.updateList(state.data.toMutableList())
                 }
             }
@@ -81,5 +90,6 @@ class PlantsListFragment : Fragment() {
 
     private fun updateUI(species: Species) {
         binding.tvNameSpecies.text = species.name
+        binding.edtSearchPlant.hint = "${getText(R.string.search_for)} ${species.name}"
     }
 }

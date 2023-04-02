@@ -2,49 +2,43 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_item_plant"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_marginVertical="10dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+    <ImageView
+        android:id="@+id/view"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:elevation="10dp"
-        android:background="@color/white"
+        android:background="@color/background_shimmer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/iv_review_plant"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:src="@mipmap/ic_launcher_round"
-            android:scaleType="centerCrop"
-            tools:ignore="ContentDescription" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintStart_toEndOf="@+id/view"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
         android:orientation="vertical"
         tools:ignore="UselessLeaf">
 
-        <TextView
-            android:id="@+id/tv_name_plant"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
-            android:textStyle="bold|normal"
-            android:textColor="@color/name_plant"/>
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/background_shimmer"
+                android:textSize="17sp"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,20 +54,28 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/big_tag"
-                    android:textSize="12sp"
+                    android:background="@color/background_shimmer"
+                    android:text="@string/kingdom"
                     android:textAllCaps="true"
-                    android:text="@string/kingdom"/>
+                    android:textColor="@color/background_shimmer"
+                    android:textSize="12sp"
+                    tools:ignore="TextContrastCheck,TextContrastCheck" />
 
-                <TextView
-                    android:id="@+id/tv_kingdom"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_marginTop="5dp"
-                    android:textColor="@color/info_text"/>
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:background="@color/background_shimmer"
+                        android:layout_weight="1"
+                        android:layout_marginTop="5dp"/>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -84,41 +86,50 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/big_tag"
-                    android:textSize="12sp"
+                    android:background="@color/background_shimmer"
+                    android:text="@string/family"
                     android:textAllCaps="true"
-                    android:text="@string/family"/>
+                    android:textColor="@color/background_shimmer"
+                    android:textSize="12sp"
+                    tools:ignore="TextContrastCheck" />
 
-                <TextView
-                    android:id="@+id/tv_family"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_marginTop="5dp"
-                    android:textColor="@color/info_text"/>
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:background="@color/background_shimmer"
+                        android:layout_weight="1"
+                        android:layout_marginTop="5dp"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/background_shimmer"
             android:text="@string/description"
-            android:textColor="@color/big_tag"
+            android:textAllCaps="true"
+            android:textColor="@color/background_shimmer"
             android:textSize="12sp"
-            android:textAllCaps="true"/>
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/tv_description_plant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/info_text"
-            android:maxLines="2"
-            android:ellipsize="end"
             android:layout_marginTop="5dp"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:focusableInTouchMode="true"/>
+            android:background="@color/background_shimmer"
+            android:maxLines="2"
+            android:text="\n"
+            android:textSize="12sp"
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

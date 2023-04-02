@@ -49,6 +49,7 @@ class PlantItemAdapter (
 
             binding.tvNamePlant.text = item.name
             binding.tvDescriptionPlant.text = item.description
+            binding.layoutItemPlant.setOnClickListener { onItemClick(item) }
         }
     }
 }

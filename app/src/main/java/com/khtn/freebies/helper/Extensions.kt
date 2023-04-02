@@ -1,14 +1,19 @@
 package com.khtn.freebies.helper
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.khtn.freebies.R
 
 fun View.hide(){
     visibility = View.GONE
@@ -28,6 +33,18 @@ fun View.enabled(){
 
 fun Fragment.toast(msg: String?){
     Toast.makeText(requireContext(),msg, Toast.LENGTH_LONG).show()
+}
+
+@SuppressLint("InflateParams")
+fun ChipGroup.addChip(
+    text: String,
+    isTouchTargeSize: Boolean = false
+) {
+    val chip: Chip = LayoutInflater.from(context).inflate(R.layout.item_chip,null,false) as Chip
+    chip.text = text
+    chip.setTypeface(chip.typeface, Typeface.BOLD)
+    chip.setEnsureMinTouchTargetSize(isTouchTargeSize)
+    addView(chip)
 }
 
 fun Context.createDialog(layout: Int, cancelable: Boolean): Dialog {

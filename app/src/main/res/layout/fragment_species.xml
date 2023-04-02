@@ -21,7 +21,7 @@
 
         <ImageButton
             android:id="@+id/ib_exit_species"
-            android:layout_width="20dp"
+            android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"

@@ -15,7 +15,7 @@ data class Plant(
     val speciesId: String = "",
     val description: String = "",
     val images: List<String> = arrayListOf(),
-    val tags: List<String> = arrayListOf(),
+    val tags: MutableList<String> = arrayListOf(),
     @ServerTimestamp
     val date: Date = Date()
 ): Parcelable

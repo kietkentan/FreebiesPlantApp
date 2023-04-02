@@ -7,13 +7,17 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="info_text">#495566</color>
+    <color name="name_plant">#36455A</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background_button">#2DDA93</color>
     <color name="background_indicator_tablayout">#48A2F5</color>
+    <color name="background_chip">#E0F0FF</color>
+    <color name="text_chip">#2F91EB</color>
     <color name="background_shimmer">#AAAAAA</color>
     <color name="big_tag">#A1A8B9</color>
     <color name="alphabet_item">#6A6F7D</color>
     <color name="foreground">#6BC744</color>
     <color name="text_hint">#D2D2D2</color>
     <color name="text_indicator">#C5C5C5</color>
+    <color name="pink">#FF6262</color>
 </resources>
