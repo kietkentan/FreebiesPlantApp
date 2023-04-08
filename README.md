@@ -1,10 +1,9 @@
 # Plant App
 
 ## Tổng quan
-Thành viên: 1
-Mô hình MVVM dùng Kotlin, Firebase (Auth, Storage, Database, FireStore), Dagger-Hilt, Navigation, LiveData
-Đây là đồ án môn trình ứng dụng trên thiết bị di động Android tại trường và đang được hoàn thiện. 
-Vì chưa có được kinh nghiệm nên có thể còn mắc một số lỗi trong đồ án. Đồ án chỉ mang tính chất tham khảo.
+- Thành viên: 1
+- Mô hình MVVM dùng Kotlin, Firebase (Auth, Storage, Database, FireStore), Dagger-Hilt, Navigation, LiveData
+- Đây là đồ án môn trình ứng dụng trên thiết bị di động Android tại trường và đang được hoàn thiện. Vì chưa có được kinh nghiệm nên có thể còn mắc một số lỗi trong đồ án. Đồ án chỉ mang tính chất tham khảo.
 
 ## Chức năng cơ bản
 - Đăng nhập/Đăng kí
