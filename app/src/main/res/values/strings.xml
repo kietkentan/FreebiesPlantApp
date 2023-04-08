@@ -41,7 +41,6 @@
     <string name="identify_uppercase">IDENTIFY</string>
     <string name="species_uppercase">SPECIES</string>
     <string name="articles_uppercase">ARTICLES</string>
-    <string name="likes_uppercase">LIKES</string>
     <string name="plant_types">Plant Types</string>
     <string name="photography">Photography</string>
     <string name="quantity_types_of_plants">Types of Plants</string>
@@ -52,6 +51,4 @@
     <string name="kingdom">kingdom</string>
     <string name="family">family</string>
     <string name="description">description</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

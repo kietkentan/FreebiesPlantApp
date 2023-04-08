@@ -38,12 +38,10 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater)
 
         fragmentList.add(ArticlesFragment())
-        fragmentList.add(SpeciesPostedFragment())
-        fragmentList.add(LikesFragment())
+        fragmentList.add(SpeciesLikedFragment())
 
         titleList.add(getString(R.string.articles_uppercase))
         titleList.add(getString(R.string.species_uppercase))
-        titleList.add(getString(R.string.likes_uppercase))
 
         return binding.root
     }

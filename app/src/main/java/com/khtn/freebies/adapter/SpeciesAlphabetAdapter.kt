@@ -12,6 +12,7 @@ class SpeciesAlphabetAdapter(
     val onItemClicked: (Species) -> Unit
 ): RecyclerView.Adapter<SpeciesAlphabetAdapter.MyViewHolder>() {
     private var speciesList: Map<Char, MutableList<Species>> = HashMap()
+    private var list = listOf<Char>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = ItemAlphabetSpeciesBinding.inflate(LayoutInflater.from(parent.context), parent,false)
@@ -19,14 +20,17 @@ class SpeciesAlphabetAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val char = if (position == 0) '#' else 'A' + (position - 1)
+        /*val char = if (position == 0) '#' else 'A' + (position - 1)
         val item = speciesList[char]
-        holder.bind(item, char)
+        holder.bind(item, char)*/
+        val item = speciesList[list[position]]
+        holder.bind(item, list[position])
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(speciesList: Map<Char, MutableList<Species>>){
         this.speciesList = speciesList
+        this.list = speciesList.keys.toList().sorted()
         notifyDataSetChanged()
     }
 
@@ -37,7 +41,7 @@ class SpeciesAlphabetAdapter(
     inner class MyViewHolder(private val binding: ItemAlphabetSpeciesBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(list: MutableList<Species>?, char: Char) {
             val adapter by lazy { SpeciesItemAdapter(onItemClicked) }
-            adapter.updateList(list!!)
+            adapter.updateList(list)
 
             val linearLayoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
             binding.recSpeciesInAlphabet.layoutManager = linearLayoutManager

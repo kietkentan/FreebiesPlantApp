@@ -44,18 +44,25 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_weight="9">
+                android:layout_weight="7">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
-                    android:layout_alignParentLeft="true">
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="0dp"
+                    android:weightSum="7"
+                    android:layout_marginBottom="0dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rec_list_review"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:visibility="gone" />
+                        android:layout_width="0dp"
+                        android:layout_weight="7"
+                        android:visibility="gone"
+                        android:layout_height="match_parent"/>
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_see_more"
@@ -64,6 +71,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="10dp"
                         android:background="@color/background_shimmer"
+                        android:minWidth="40dp"
+                        android:maxWidth="40dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_see_more_open"
                         android:tint="@color/white"
@@ -74,87 +83,89 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="3" />
         </LinearLayout>
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingHorizontal="20dp"
         android:orientation="vertical"
+        android:paddingHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="155dp">
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/tags_plant_detail"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginVertical="20dp"/>
+            android:layout_marginVertical="20dp" />
 
         <TextView
             android:id="@+id/tv_name_plant_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/name_plant"
             android:textSize="27sp"
-            android:textStyle="bold"
-            android:textColor="@color/name_plant"/>
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="30dp"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/layout_kingdom_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@string/kingdom"
+                    android:textAllCaps="true"
                     android:textColor="@color/info_text"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:text="@string/kingdom"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_kingdom_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:layout_marginTop="5dp"
-                    android:textColor="@color/alphabet_item"/>
+                    android:textColor="@color/alphabet_item"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_family_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@string/family"
+                    android:textAllCaps="true"
                     android:textColor="@color/info_text"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:text="@string/family"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_family_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:layout_marginTop="5dp"
-                    android:textColor="@color/alphabet_item"/>
+                    android:textColor="@color/alphabet_item"
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -163,9 +174,9 @@
             android:layout_height="wrap_content"
             android:text="@string/description"
             android:textAllCaps="true"
-            android:textStyle="bold"
+            android:textColor="@color/info_text"
             android:textSize="14sp"
-            android:textColor="@color/info_text"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_description_plant_detail"
@@ -174,7 +185,7 @@
             android:layout_marginTop="10dp"
             android:lineSpacingExtra="10dp"
             android:textColor="@color/alphabet_item"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </LinearLayout>
 
     <com.google.android.material.imageview.ShapeableImageView

@@ -46,7 +46,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingEnd="10dp"
@@ -57,187 +57,219 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rec_species_alphabet"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="28dip" />
+            android:layout_marginEnd="28dip"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/nestedScrollView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.core.widget.NestedScrollView
-            android:layout_width="28dip"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true">
+            android:id="@+id/nestedScrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:orientation="vertical"
-                tools:ignore="UselessParent">
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent">
 
-                <TextView
-                    android:id="@+id/Other"
-                    style="@style/alphabetTextView"
-                    android:tag="#"
-                    android:text="#" />
+                <LinearLayout
+                    android:layout_width="28dip"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="UselessParent">
 
-                <TextView
-                    android:id="@+id/tv_A"
-                    style="@style/alphabetTextView"
-                    android:tag="A"
-                    android:text="A" />
+                    <TextView
+                        android:id="@+id/Other"
+                        style="@style/alphabetTextView"
+                        android:tag="#"
+                        android:text="#" />
 
-                <TextView
-                    android:id="@+id/tv_B"
-                    style="@style/alphabetTextView"
-                    android:tag="B"
-                    android:text="B" />
+                    <TextView
+                        android:id="@+id/tv_A"
+                        style="@style/alphabetTextView"
+                        android:tag="A"
+                        android:text="A" />
 
-                <TextView
-                    android:id="@+id/tv_C"
-                    style="@style/alphabetTextView"
-                    android:tag="C"
-                    android:text="C" />
+                    <TextView
+                        android:id="@+id/tv_B"
+                        style="@style/alphabetTextView"
+                        android:tag="B"
+                        android:text="B" />
 
-                <TextView
-                    android:id="@+id/tv_D"
-                    style="@style/alphabetTextView"
-                    android:tag="D"
-                    android:text="D" />
+                    <TextView
+                        android:id="@+id/tv_C"
+                        style="@style/alphabetTextView"
+                        android:tag="C"
+                        android:text="C" />
 
-                <TextView
-                    android:id="@+id/tv_E"
-                    style="@style/alphabetTextView"
-                    android:tag="E"
-                    android:text="E" />
+                    <TextView
+                        android:id="@+id/tv_D"
+                        style="@style/alphabetTextView"
+                        android:tag="D"
+                        android:text="D" />
 
-                <TextView
-                    android:id="@+id/tv_F"
-                    style="@style/alphabetTextView"
-                    android:tag="F"
-                    android:text="F" />
+                    <TextView
+                        android:id="@+id/tv_E"
+                        style="@style/alphabetTextView"
+                        android:tag="E"
+                        android:text="E" />
 
-                <TextView
-                    android:id="@+id/tv_G"
-                    style="@style/alphabetTextView"
-                    android:tag="G"
-                    android:text="G" />
+                    <TextView
+                        android:id="@+id/tv_F"
+                        style="@style/alphabetTextView"
+                        android:tag="F"
+                        android:text="F" />
 
-                <TextView
-                    android:id="@+id/tv_H"
-                    style="@style/alphabetTextView"
-                    android:tag="H"
-                    android:text="H" />
+                    <TextView
+                        android:id="@+id/tv_G"
+                        style="@style/alphabetTextView"
+                        android:tag="G"
+                        android:text="G" />
 
-                <TextView
-                    android:id="@+id/tv_I"
-                    style="@style/alphabetTextView"
-                    android:tag="I"
-                    android:text="I" />
+                    <TextView
+                        android:id="@+id/tv_H"
+                        style="@style/alphabetTextView"
+                        android:tag="H"
+                        android:text="H" />
 
-                <TextView
-                    android:id="@+id/tv_J"
-                    style="@style/alphabetTextView"
-                    android:tag="J"
-                    android:text="J" />
+                    <TextView
+                        android:id="@+id/tv_I"
+                        style="@style/alphabetTextView"
+                        android:tag="I"
+                        android:text="I" />
 
-                <TextView
-                    android:id="@+id/tv_K"
-                    style="@style/alphabetTextView"
-                    android:tag="K"
-                    android:text="K" />
+                    <TextView
+                        android:id="@+id/tv_J"
+                        style="@style/alphabetTextView"
+                        android:tag="J"
+                        android:text="J" />
 
-                <TextView
-                    android:id="@+id/tv_L"
-                    style="@style/alphabetTextView"
-                    android:tag="L"
-                    android:text="L" />
+                    <TextView
+                        android:id="@+id/tv_K"
+                        style="@style/alphabetTextView"
+                        android:tag="K"
+                        android:text="K" />
 
-                <TextView
-                    android:id="@+id/tv_M"
-                    style="@style/alphabetTextView"
-                    android:tag="M"
-                    android:text="M" />
+                    <TextView
+                        android:id="@+id/tv_L"
+                        style="@style/alphabetTextView"
+                        android:tag="L"
+                        android:text="L" />
 
-                <TextView
-                    android:id="@+id/tv_N"
-                    style="@style/alphabetTextView"
-                    android:tag="N"
-                    android:text="N" />
+                    <TextView
+                        android:id="@+id/tv_M"
+                        style="@style/alphabetTextView"
+                        android:tag="M"
+                        android:text="M" />
 
-                <TextView
-                    android:id="@+id/tv_O"
-                    style="@style/alphabetTextView"
-                    android:tag="O"
-                    android:text="O" />
+                    <TextView
+                        android:id="@+id/tv_N"
+                        style="@style/alphabetTextView"
+                        android:tag="N"
+                        android:text="N" />
 
-                <TextView
-                    android:id="@+id/tv_P"
-                    style="@style/alphabetTextView"
-                    android:tag="P"
-                    android:text="P" />
+                    <TextView
+                        android:id="@+id/tv_O"
+                        style="@style/alphabetTextView"
+                        android:tag="O"
+                        android:text="O" />
 
-                <TextView
-                    android:id="@+id/tv_Q"
-                    style="@style/alphabetTextView"
-                    android:tag="Q"
-                    android:text="Q" />
+                    <TextView
+                        android:id="@+id/tv_P"
+                        style="@style/alphabetTextView"
+                        android:tag="P"
+                        android:text="P" />
 
-                <TextView
-                    android:id="@+id/tv_R"
-                    style="@style/alphabetTextView"
-                    android:tag="R"
-                    android:text="R" />
+                    <TextView
+                        android:id="@+id/tv_Q"
+                        style="@style/alphabetTextView"
+                        android:tag="Q"
+                        android:text="Q" />
 
-                <TextView
-                    android:id="@+id/tv_S"
-                    style="@style/alphabetTextView"
-                    android:tag="S"
-                    android:text="S" />
+                    <TextView
+                        android:id="@+id/tv_R"
+                        style="@style/alphabetTextView"
+                        android:tag="R"
+                        android:text="R" />
 
-                <TextView
-                    android:id="@+id/tv_T"
-                    style="@style/alphabetTextView"
-                    android:tag="T"
-                    android:text="T" />
+                    <TextView
+                        android:id="@+id/tv_S"
+                        style="@style/alphabetTextView"
+                        android:tag="S"
+                        android:text="S" />
 
-                <TextView
-                    android:id="@+id/tv_U"
-                    style="@style/alphabetTextView"
-                    android:tag="U"
-                    android:text="U" />
+                    <TextView
+                        android:id="@+id/tv_T"
+                        style="@style/alphabetTextView"
+                        android:tag="T"
+                        android:text="T" />
 
-                <TextView
-                    android:id="@+id/tv_V"
-                    style="@style/alphabetTextView"
-                    android:tag="V"
-                    android:text="V" />
+                    <TextView
+                        android:id="@+id/tv_U"
+                        style="@style/alphabetTextView"
+                        android:tag="U"
+                        android:text="U" />
 
-                <TextView
-                    android:id="@+id/tv_W"
-                    style="@style/alphabetTextView"
-                    android:tag="W"
-                    android:text="W" />
+                    <TextView
+                        android:id="@+id/tv_V"
+                        style="@style/alphabetTextView"
+                        android:tag="V"
+                        android:text="V" />
 
-                <TextView
-                    android:id="@+id/tv_X"
-                    style="@style/alphabetTextView"
-                    android:tag="X"
-                    android:text="X" />
+                    <TextView
+                        android:id="@+id/tv_W"
+                        style="@style/alphabetTextView"
+                        android:tag="W"
+                        android:text="W" />
 
-                <TextView
-                    android:id="@+id/tv_Y"
-                    style="@style/alphabetTextView"
-                    android:tag="Y"
-                    android:text="Y" />
+                    <TextView
+                        android:id="@+id/tv_X"
+                        style="@style/alphabetTextView"
+                        android:tag="X"
+                        android:text="X" />
 
-                <TextView
-                    android:id="@+id/tv_Z"
-                    style="@style/alphabetTextView"
-                    android:tag="Z"
-                    android:text="Z" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_Y"
+                        style="@style/alphabetTextView"
+                        android:tag="Y"
+                        android:text="Y" />
+
+                    <TextView
+                        android:id="@+id/tv_Z"
+                        style="@style/alphabetTextView"
+                        android:tag="Z"
+                        android:text="Z" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-    </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_show_alphabet"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/bg_circle_hint"
+            android:gravity="center"
+            android:text="#"
+            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <EditText
         android:id="@+id/edt_search_species"
@@ -263,17 +295,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck,TextFields,UseCompatTextViewDrawableXml" />
-
-    <TextView
-        android:id="@+id/tv_show_alphabet"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:text="#"
-        android:background="@drawable/bg_circle_hint"
-        android:layout_marginTop="208dp"
-        android:layout_marginEnd="50dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

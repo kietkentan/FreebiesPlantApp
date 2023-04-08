@@ -5,18 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.khtn.freebies.databinding.FragmentArticlesBinding
+import com.khtn.freebies.databinding.FragmentArticlesLikedBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ArticlesFragment : Fragment() {
-    private lateinit var binding: FragmentArticlesBinding
+    private lateinit var binding: FragmentArticlesLikedBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentArticlesBinding.inflate(inflater)
+        binding = FragmentArticlesLikedBinding.inflate(inflater)
         return binding.root
     }
 

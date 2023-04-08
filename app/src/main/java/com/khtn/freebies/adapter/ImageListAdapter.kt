@@ -5,7 +5,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.khtn.freebies.databinding.ItemImageBinding
+import com.khtn.freebies.databinding.ItemImage1Binding
 import com.squareup.picasso.Picasso
 
 class ImageListAdapter(
@@ -14,7 +14,7 @@ class ImageListAdapter(
     private var list: MutableList<Uri> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = ItemImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemView = ItemImage1Binding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(itemView)
     }
 
@@ -33,10 +33,10 @@ class ImageListAdapter(
         return list.size
     }
 
-    inner class MyViewHolder(private val binding: ItemImageBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class MyViewHolder(private val binding: ItemImage1Binding): RecyclerView.ViewHolder(binding.root) {
         fun bind(uri: Uri) {
-            Picasso.get().load(uri).into(binding.ivImage)
-            binding.ivImage.setOnClickListener { onItemClicked(uri) }
+            Picasso.get().load(uri).into(binding.ivImage1)
+            binding.ivImage1.setOnClickListener { onItemClicked(uri) }
         }
     }
 }

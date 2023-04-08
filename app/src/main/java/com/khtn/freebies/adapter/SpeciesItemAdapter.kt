@@ -23,8 +23,10 @@ class SpeciesItemAdapter(
         }
 
         @SuppressLint("NotifyDataSetChanged")
-        fun updateList(speciesList: MutableList<Species>){
-            this.speciesList = speciesList
+        fun updateList(speciesList: MutableList<Species>?){
+            if (speciesList != null) {
+                this.speciesList = speciesList
+            }
             notifyDataSetChanged()
         }
 

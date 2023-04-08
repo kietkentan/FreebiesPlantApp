@@ -8,7 +8,9 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.chip.Chip
@@ -63,6 +65,16 @@ fun Context.createDialog(layout: Int, cancelable: Boolean): Dialog {
 
 val Int.dpToPx: Int
     get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+val View.keyboardIsVisible: Boolean
+    get() = WindowInsetsCompat
+        .toWindowInsetsCompat(rootWindowInsets)
+        .isVisible(WindowInsetsCompat.Type.ime())
+
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
+}
 
 val Int.pxToDp: Int
     get() = (this / Resources.getSystem().displayMetrics.density).toInt()
