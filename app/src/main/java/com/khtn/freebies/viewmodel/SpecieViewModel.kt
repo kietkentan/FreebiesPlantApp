@@ -19,7 +19,7 @@ class SpecieViewModel @Inject constructor(
 
     fun getSpecies() {
         _species.value = UiState.Loading
-        speciesRepo.getGenus {
+        speciesRepo.getSpecies {
             _species.value = it
         }
     }

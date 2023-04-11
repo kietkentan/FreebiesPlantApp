@@ -2,6 +2,7 @@ package com.khtn.freebies.helper
 
 object FireStoreCollection {
     const val PLANT_TYPE = "plant_type"
+    const val PHOTOGRAPHY = "photography"
     const val SPECIES = "species"
     const val USER = "user"
     const val ACCOUNT_SETTING = "user_account_setting"
@@ -9,11 +10,6 @@ object FireStoreCollection {
 
 object FireDatabase {
     const val PLANT = "plant"
-}
-
-object FireStoreDocumentField {
-    const val DATE = "date"
-    const val USER_ID = "user_id"
 }
 
 object SharedPrefConstants {
@@ -26,9 +22,4 @@ object SharedPrefConstants {
 object FirebaseStorageConstants {
     const val ROOT_DIRECTORY = "app"
     const val NOTE_IMAGES = "note"
-}
-
-enum class HomeTabs(val index: Int, val key: String) {
-    NOTES(0, "notes"),
-    TASKS(1, "tasks"),
 }

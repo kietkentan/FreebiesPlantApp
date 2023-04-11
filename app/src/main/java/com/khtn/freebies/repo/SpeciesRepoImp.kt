@@ -8,8 +8,8 @@ import com.khtn.freebies.module.Species
 class SpeciesRepoImp(
     private val database: FirebaseFirestore
 ): SpeciesRepo {
-    override fun getGenus(result: (UiState<Map<Char, MutableList<Species>>>) -> Unit) {
-        val genusList: Map<Char, MutableList<Species>> = addMap()
+    override fun getSpecies(result: (UiState<Map<Char, MutableList<Species>>>) -> Unit) {
+        val speciesList: Map<Char, MutableList<Species>> = addMap()
 
         database.collection(FireStoreCollection.SPECIES)
             .get()
@@ -18,10 +18,10 @@ class SpeciesRepoImp(
                     val genus = document.toObject(Species::class.java)
                     val char: Char = genus.name[0]
 
-                    if (char in 'A'..'Z') genusList[char]!!.add(genus)
-                    else genusList['#']!!.add(genus)
+                    if (char in 'A'..'Z') speciesList[char]!!.add(genus)
+                    else speciesList['#']!!.add(genus)
                 }
-                result.invoke(UiState.Success(genusList))
+                result.invoke(UiState.Success(speciesList))
             }
             .addOnFailureListener {
                 result.invoke(UiState.Failure(it.localizedMessage))
@@ -29,12 +29,12 @@ class SpeciesRepoImp(
     }
 
     private fun addMap(): Map<Char, MutableList<Species>> {
-        val genusList = hashMapOf<Char, MutableList<Species>>()
+        val speciesList = hashMapOf<Char, MutableList<Species>>()
 
-        genusList['#'] = mutableListOf()
+        speciesList['#'] = mutableListOf()
         for (i in 0..25)
-            genusList['A' + i] = mutableListOf()
+            speciesList['A' + i] = mutableListOf()
 
-        return genusList
+        return speciesList
     }
 }

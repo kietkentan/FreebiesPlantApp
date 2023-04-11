@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.khtn.freebies.R
+import com.khtn.freebies.adapter.PhotographyAdapter
 import com.khtn.freebies.adapter.PlantTypeAdapter
 import com.khtn.freebies.databinding.FragmentHomeBinding
 import com.khtn.freebies.helper.UiState
@@ -26,9 +27,14 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
-    private val adapter by lazy {
+    private val plantTypeAdapter by lazy {
         PlantTypeAdapter(
             onItemClicked = {pos, item -> }
+        )
+    }
+    private val photographyAdapter by lazy {
+        PhotographyAdapter(
+            onItemClicked = {item -> }
         )
     }
 
@@ -43,39 +49,64 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observe()
 
-        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val managerPlantType = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val managerPhotography = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        binding.recPlantType.layoutManager = linearLayoutManager
-        binding.recPlantType.adapter = adapter
+        binding.recPlantType.layoutManager = managerPlantType
+        binding.recPlantType.adapter = plantTypeAdapter
 
-        authViewModel.getSession {
-            setupUser(it)
-            viewModel.getPlantType()
-            viewModel.plantType.observe(viewLifecycleOwner) { state ->
-                when(state){
-                    is UiState.Loading -> {
-                        binding.shimmerPlantType.startShimmer()
-                        binding.shimmerPlantType.show()
-                        binding.recPlantType.hide()
-                    }
-                    is UiState.Failure -> {
-                        binding.shimmerPlantType.stopShimmer()
-                        binding.shimmerPlantType.hide()
-                        binding.recPlantType.show()
-                        toast(state.error)
-                    }
-                    is UiState.Success -> {
-                        binding.shimmerPlantType.stopShimmer()
-                        binding.shimmerPlantType.hide()
-                        binding.recPlantType.show()
-                        adapter.updateList(state.data.toMutableList())
-                    }
+        binding.recPhotography.layoutManager = managerPhotography
+        binding.recPhotography.adapter = photographyAdapter
+
+        authViewModel.getSession { setupUser(it) }
+        viewModel.getPlantType()
+        viewModel.getPhotographyTag()
+
+        binding.layoutSpecial.setOnClickListener(this@HomeFragment)
+    }
+
+    private fun observe() {
+        viewModel.plantType.observe(viewLifecycleOwner) { state ->
+            when(state){
+                is UiState.Loading -> {
+                    binding.shimmerPlantType.startShimmer()
+                    binding.shimmerPlantType.show()
+                    binding.recPlantType.hide()
+                }
+                is UiState.Failure -> {
+                    binding.shimmerPlantType.stopShimmer()
+                    binding.shimmerPlantType.hide()
+                    binding.recPlantType.show()
+                    toast(state.error)
+                }
+                is UiState.Success -> {
+                    binding.shimmerPlantType.stopShimmer()
+                    binding.shimmerPlantType.hide()
+                    binding.recPlantType.show()
+                    plantTypeAdapter.updateList(state.data.toMutableList())
                 }
             }
         }
 
-        binding.layoutSpecial.setOnClickListener(this@HomeFragment)
+        viewModel.photography.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                UiState.Loading -> {
+                    binding.recPhotography.hide()
+                }
+
+                is UiState.Failure -> {
+                    binding.recPhotography.hide()
+                    toast(state.error)
+                }
+
+                is UiState.Success -> {
+                    binding.recPhotography.show()
+                    photographyAdapter.updateList(state.data.toMutableList())
+                }
+            }
+        }
     }
 
     private fun setupUser(user: User?) {

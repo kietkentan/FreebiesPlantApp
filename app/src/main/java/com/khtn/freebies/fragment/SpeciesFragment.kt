@@ -240,6 +240,7 @@ class SpeciesFragment : Fragment(), View.OnClickListener {
         binding.edtSearchSpecies.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 binding.edtSearchSpecies.hideKeyboard()
+                @Suppress("UNUSED_EXPRESSION")
                 true
             }
             false // very important
