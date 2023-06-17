@@ -74,9 +74,9 @@ class PlantsListFragment : Fragment() {
                     binding.shimmerPlantList.show()
                     binding.shimmerPlantList.startShimmer()
                 }
-                is UiState.Failure -> {
-                    toast(state.error)
-                }
+
+                is UiState.Failure -> toast(state.error)
+
                 is UiState.Success -> {
                     binding.shimmerPlantList.stopShimmer()
                     binding.shimmerPlantList.hide()

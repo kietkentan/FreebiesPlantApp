@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.khtn.freebies.R
 import com.khtn.freebies.adapter.OnboardAdapter
 import com.khtn.freebies.databinding.ActivityOnboardBinding
+import com.khtn.freebies.helper.transparentStatusBar
 import com.khtn.freebies.module.OnboardItems
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,6 +56,11 @@ class OnboardActivity : AppCompatActivity(), OnClickListener {
         binding.btnNext.setOnClickListener(this@OnboardActivity)
     }
 
+    override fun onStart() {
+        super.onStart()
+        transparentStatusBar(true)
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_next -> checkIntroPosition()
@@ -70,7 +76,7 @@ class OnboardActivity : AppCompatActivity(), OnClickListener {
     }
 
     private fun onSigIn() {
-        val intent = Intent(this@OnboardActivity, SetupUserActivity::class.java)
+        val intent = Intent(this@OnboardActivity, MainActivity::class.java)
         startActivity(intent)
         finish()
     }

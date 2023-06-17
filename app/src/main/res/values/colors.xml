@@ -22,4 +22,5 @@
     <color name="text_photography">#2E382F</color>
     <color name="liked">#FF6262</color>
     <color name="not_like">#5C5C5C</color>
+    <color name="color_stroke_grey">#e9e9e9</color>
 </resources>

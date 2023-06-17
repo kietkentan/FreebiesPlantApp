@@ -1,54 +1,268 @@
 package com.khtn.freebies.repo
 
+import android.content.SharedPreferences
 import android.net.Uri
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.StorageReference
-import com.khtn.freebies.helper.FireDatabase
+import android.util.Log
+import com.google.firebase.firestore.CollectionReference
+import com.google.gson.Gson
+import com.khtn.freebies.helper.FireStoreCollection
+import com.khtn.freebies.helper.SharedPrefConstants
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.module.Plant
 import com.khtn.freebies.module.Species
+import com.khtn.freebies.module.User
 
 class PlantRepoImp(
-    val database: FirebaseDatabase,
-    val storageReference: StorageReference
+    private val plantCollection: CollectionReference,
+    private val followerCollection: CollectionReference,
+    private val followingCollection: CollectionReference,
+    private val appPreferences: SharedPreferences,
+    private val gson: Gson
 ): PlantRepo {
+    override fun getSession(result: (User?) -> Unit) {
+        val user_str = appPreferences.getString(SharedPrefConstants.USER_SESSION,null)
+        if (user_str == null)
+            result.invoke(null)
+        else {
+            val user = gson.fromJson(user_str, User::class.java)
+            result.invoke(user)
+        }
+    }
+
     override fun getPlantsForSpecie(
         species: Species,
         result: (UiState<MutableList<Plant>>) -> Unit
     ) {
-        val reference = database.reference.child(FireDatabase.PLANT)
-        reference.child(species.id)
+        plantCollection
+            .whereEqualTo("speciesId", species.id)
             .get()
             .addOnSuccessListener {
-                val plans: MutableList<Plant> = arrayListOf()
-                for (item in it.children) {
-                    val plant = item.getValue(Plant::class.java)
-                    plant?.let { it1 -> plans.add(it1) }
+                val plants: MutableList<Plant> = arrayListOf()
+                for (document in it) {
+                    val plant = document.toObject(Plant::class.java)
+                    plants.add(plant)
                 }
-                result.invoke(UiState.Success(plans))
+                result.invoke(UiState.Success(plants))
             }
             .addOnFailureListener {
                 result.invoke(UiState.Failure(it.localizedMessage))
             }
     }
 
-    override fun addPlant(plant: Plant, result: (UiState<Pair<Plant, String>>) -> Unit) {
+    override fun addPlant(
+        plant: Plant,
+        result: (UiState<Pair<Plant, String>>) -> Unit
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun updatePlant(plant: Plant, result: (UiState<String>) -> Unit) {
+    override fun updatePlant(
+        plant: Plant,
+        result: (UiState<String>) -> Unit
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun deletePlant(plant: Plant, result: (UiState<String>) -> Unit) {
+    override fun deletePlant(
+        plant: Plant,
+        result: (UiState<String>) -> Unit
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun uploadSingleFile(uri: Uri, onResult: (UiState<Uri>) -> Unit) {
+    override fun uploadSingleFile(
+        uri: Uri,
+        onResult: (UiState<Uri>) -> Unit
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun uploadMultipleFile(fileUri: List<Uri>, onResult: (UiState<List<Uri>>) -> Unit) {
+    override fun uploadMultipleFile(
+        fileUri: List<Uri>,
+        onResult: (UiState<List<Uri>>) -> Unit
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun checkFavoritePlant(
+        id: String,
+        plantId: String,
+        result: (UiState<Boolean>) -> Unit
+    ) {
+        followerCollection
+            .document(plantId)
+            .get()
+            .addOnSuccessListener {
+                val map = it.data
+                if (map != null) {
+                    val request = map[FireStoreCollection.FOLLOWER]
+                    if (request != null) {
+                        val list: List<String> = request as List<String>
+
+                        for (pid in list)
+                            if (pid == id) {
+                                result.invoke(UiState.Success(true))
+                                return@addOnSuccessListener
+                            }
+                    }
+                }
+                result.invoke(UiState.Success(false))
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun addFavoritePlant(
+        id: String,
+        plantId: String,
+        result: (UiState<Boolean>) -> Unit
+    ) {
+        followerCollection
+            .document(plantId)
+            .get()
+            .addOnSuccessListener {
+                var request = it.data
+                val listId = mutableListOf<String>()
+                listId.add(id)
+
+                if (request != null) {
+                    val list: MutableList<String> = (request[FireStoreCollection.FOLLOWER] ?: mutableListOf<String>()) as MutableList<String>
+                    listId.addAll(list)
+                } else {
+                    request = hashMapOf()
+                    request[FireStoreCollection.ID] = plantId
+                }
+
+                request[FireStoreCollection.FOLLOWER] = listId
+                followerCollection.document(plantId).set(request)
+                    .addOnSuccessListener {
+                        addAccountFavorite(id, plantId) { state ->
+                            result.invoke(state)
+                        }
+                    }
+                    .addOnFailureListener { ex ->
+                        result.invoke(UiState.Failure(ex.localizedMessage))
+                    }
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun addAccountFavorite(
+        id: String,
+        plantId: String,
+        result: (UiState<Boolean>) -> Unit
+    ) {
+        followingCollection
+            .document(id)
+            .get()
+            .addOnSuccessListener {
+                var request = it.data
+                val listPlantId = mutableListOf<String>()
+                listPlantId.add(plantId)
+
+                if (request != null) {
+                    val list: MutableList<String> = (request[FireStoreCollection.PLANT] ?: mutableListOf<String>()) as MutableList<String>
+                    listPlantId.addAll(list)
+                } else {
+                    request = hashMapOf()
+                    request[FireStoreCollection.ID] = id
+                }
+
+                request[FireStoreCollection.PLANT] = listPlantId
+                followingCollection.document(id).set(request)
+                    .addOnSuccessListener {
+                        result.invoke(UiState.Success(true))
+                    }
+                    .addOnFailureListener { ex ->
+                        result.invoke(UiState.Failure(ex.localizedMessage))
+                    }
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun removeSingleFavoritePlant(
+        id: String,
+        plantId: String,
+        result: (UiState<Boolean>) -> Unit
+    ) {
+        followerCollection
+            .document(plantId)
+            .get()
+            .addOnSuccessListener {
+                var request = it.data
+                var listId = mutableListOf<String>()
+
+                if (request != null) {
+                    val list: MutableList<String> = (request[FireStoreCollection.FOLLOWER] ?: mutableListOf<String>()) as MutableList<String>
+                    list.remove(id)
+                    listId = list
+                } else {
+                    request = hashMapOf()
+                    request[FireStoreCollection.ID] = plantId
+                }
+
+                request[FireStoreCollection.FOLLOWER] = listId
+                followerCollection.document(plantId).set(request)
+                    .addOnSuccessListener {
+                        removeSigleAccountFavorite(id, plantId) { state ->
+                            result.invoke(state)
+                        }
+                    }
+                    .addOnFailureListener { ex ->
+                        result.invoke(UiState.Failure(ex.localizedMessage))
+                    }
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun removeSigleAccountFavorite(
+        id: String,
+        plantId: String,
+        result: (UiState<Boolean>) -> Unit
+    ) {
+        followingCollection
+            .document(id)
+            .get()
+            .addOnSuccessListener {
+                var request = it.data
+                var listPlantId = mutableListOf<String>()
+
+                if (request != null) {
+                    val list: MutableList<String> = (request[FireStoreCollection.PLANT] ?: mutableListOf<String>()) as MutableList<String>
+                    list.remove(plantId)
+                    listPlantId = list
+                } else {
+                    request = hashMapOf()
+                    request[FireStoreCollection.ID] = id
+                }
+
+                request[FireStoreCollection.PLANT] = listPlantId
+                followingCollection.document(id).set(request)
+                    .addOnSuccessListener {
+                        result.invoke(UiState.Success(true))
+                    }
+                    .addOnFailureListener { ex ->
+                        result.invoke(UiState.Failure(ex.localizedMessage))
+                    }
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
+    }
+
+    override fun removeAllFavoritePlant(id: String, result: (UiState<String>) -> Unit) {
         TODO("Not yet implemented")
     }
 }

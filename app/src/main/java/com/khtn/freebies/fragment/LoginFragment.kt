@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.khtn.freebies.R
-import com.khtn.freebies.activity.MainActivity
 import com.khtn.freebies.databinding.FragmentLoginBinding
 import com.khtn.freebies.helper.*
 import com.khtn.freebies.module.UserLog
@@ -87,7 +86,7 @@ class LoginFragment: Fragment(), View.OnClickListener{
                     binding.btnLogin.text = getText(R.string.login)
                     binding.btnLogin.isEnabled = true
                     binding.progressLogin.hide()
-                    startMainActivity()
+                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                 }
             }
         }
@@ -139,11 +138,5 @@ class LoginFragment: Fragment(), View.OnClickListener{
 
             R.id.tv_go_to_signup_2 -> findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
-    }
-
-    private fun startMainActivity() {
-        val intent = Intent(context, MainActivity::class.java)
-        startActivity(intent)
-        activity?.finish()
     }
 }

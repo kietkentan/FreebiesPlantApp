@@ -1,21 +1,22 @@
 package com.khtn.freebies.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.module.User
+import com.khtn.freebies.module.UserAccountSetting
 import com.khtn.freebies.module.UserLog
-import com.khtn.freebies.repo.AccountSettingRepo
 import com.khtn.freebies.repo.AuthRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authRepo: AuthRepo,
+    private val authRepo: AuthRepo
 ): ViewModel() {
-
+    // Account
     private val _register = MutableLiveData<UiState<String>>()
     val register: LiveData<UiState<String>>
         get() = _register
@@ -27,6 +28,15 @@ class AuthViewModel @Inject constructor(
     private val _forgotPassword = MutableLiveData<UiState<String>>()
     val forgotPassword: LiveData<UiState<String>>
         get() = _forgotPassword
+
+    // Setting
+    private val _setting = MutableLiveData<UiState<String>>()
+    val getSetting: LiveData<UiState<String>>
+        get() = _setting
+
+    private val _updateSetting = MutableLiveData<UiState<String>>()
+    val updateSetting: LiveData<UiState<String>>
+        get() = _updateSetting
 
     fun register(
         password: String,
@@ -73,5 +83,29 @@ class AuthViewModel @Inject constructor(
 
     fun getLoginInfo(result: (UserLog?) -> Unit){
         authRepo.getLoginInfo(result)
+    }
+
+    fun getSetting(id: String) {
+        _setting.value = UiState.Loading
+        authRepo.getAccountSetting(id) {
+            _setting.value = it
+        }
+    }
+
+    fun updateSetting(
+        id: String,
+        accountSetting: UserAccountSetting
+    ) {
+        _updateSetting.value = UiState.Loading
+        authRepo.updateAccountSetting(
+            id,
+            accountSetting
+        ) {
+            _updateSetting.value = it
+        }
+    }
+
+    fun getSettingSession(result: (UserAccountSetting?) -> Unit) {
+        authRepo.getSettingSession(result)
     }
 }

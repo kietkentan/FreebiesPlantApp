@@ -234,7 +234,6 @@ class SpeciesFragment : Fragment(), View.OnClickListener {
                     onSearch(currentFirstText)
                 }
             }
-
         })
 
         binding.edtSearchSpecies.setOnKeyListener { _, keyCode, event ->

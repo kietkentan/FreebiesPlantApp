@@ -2,14 +2,19 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".activity.MainActivity">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager_onmain"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        app:navGraph="@navigation/app_navigation"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -36,7 +41,7 @@
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_open_camera"
+        android:id="@+id/btn_open_gallery"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:backgroundTint="#48A2F5"

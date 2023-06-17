@@ -1,6 +1,7 @@
 package com.khtn.freebies.helper
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
@@ -13,6 +14,8 @@ import android.widget.Toast
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.khtn.freebies.R
@@ -33,8 +36,37 @@ fun View.enabled(){
     isEnabled = true
 }
 
+fun NavController.isValidDestination(destination: Int): Boolean {
+    return destination == this.currentDestination!!.id
+}
+
 fun Fragment.toast(msg: String?){
-    Toast.makeText(requireContext(),msg, Toast.LENGTH_LONG).show()
+    Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+}
+
+fun Activity.toast(msg: String?){
+    Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+}
+
+@SuppressLint("InlinedApi")
+@Suppress("DEPRECATION")
+fun Activity.transparentStatusBar(isLightBackground: Boolean) {
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+    if (isLightBackground)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
+    window.statusBarColor = Color.TRANSPARENT
+}
+
+fun BottomSheetDialogFragment.setTransparentBackground() {
+    dialog?.apply {
+        setOnShowListener {
+            val bottomSheet = findViewById<View?>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.setBackgroundResource(android.R.color.transparent)
+        }
+    }
 }
 
 @SuppressLint("InflateParams")

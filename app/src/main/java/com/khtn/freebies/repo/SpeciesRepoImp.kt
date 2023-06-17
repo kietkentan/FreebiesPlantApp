@@ -1,17 +1,19 @@
 package com.khtn.freebies.repo
 
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.khtn.freebies.di.SpeciesCollection
 import com.khtn.freebies.helper.FireStoreCollection
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.module.Species
 
 class SpeciesRepoImp(
-    private val database: FirebaseFirestore
+    private val speciesCollection: CollectionReference
 ): SpeciesRepo {
     override fun getSpecies(result: (UiState<Map<Char, MutableList<Species>>>) -> Unit) {
         val speciesList: Map<Char, MutableList<Species>> = addMap()
 
-        database.collection(FireStoreCollection.SPECIES)
+        speciesCollection
             .get()
             .addOnSuccessListener {
                 for (document in it) {

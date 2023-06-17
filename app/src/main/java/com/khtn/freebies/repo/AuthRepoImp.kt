@@ -1,11 +1,12 @@
 package com.khtn.freebies.repo
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.CollectionReference
 import com.google.gson.Gson
 import com.khtn.freebies.helper.FireStoreCollection
 import com.khtn.freebies.helper.SharedPrefConstants
@@ -16,7 +17,8 @@ import com.khtn.freebies.module.UserLog
 
 class AuthRepoImp (
     private val auth: FirebaseAuth,
-    private val database: FirebaseFirestore,
+    private val userCollection: CollectionReference,
+    private val accountSettingCollection: CollectionReference,
     private val appPreferences: SharedPreferences,
     private val gson: Gson
 ) : AuthRepo {
@@ -32,7 +34,7 @@ class AuthRepoImp (
 
                     updateUserInfo(user) { state ->
                         if (state is UiState.Success) {
-                            createSetting(
+                            updateAccountSetting(
                                 id = it.result.user?.uid ?: "",
                                 UserAccountSetting(display_name = user.name)
                             ) { state1 ->
@@ -70,25 +72,9 @@ class AuthRepoImp (
         user: User,
         result: (UiState<String>) -> Unit
     ) {
-        val document = database.collection(FireStoreCollection.USER).document(user.id)
+        val document = userCollection.document(user.id)
         document
             .set(user)
-            .addOnSuccessListener {
-                result.invoke(UiState.Success("User has been update successfully"))
-            }
-            .addOnFailureListener {
-                result.invoke(UiState.Failure(it.localizedMessage))
-            }
-    }
-
-    override fun createSetting(
-        id: String,
-        accountSetting: UserAccountSetting,
-        result: (UiState<String>) -> Unit
-    ) {
-        val document = database.collection(FireStoreCollection.ACCOUNT_SETTING).document(id)
-        document
-            .set(accountSetting)
             .addOnSuccessListener {
                 result.invoke(UiState.Success("User has been update successfully"))
             }
@@ -113,10 +99,13 @@ class AuthRepoImp (
                             result.invoke(UiState.Success("Login successfully!"))
                     }
                     if (save)
-                        appPreferences.edit().putString(SharedPrefConstants.LOGIN_INFO, gson.toJson(UserLog(
-                            email = email,
-                            password = password
-                        )))
+                        appPreferences.edit()
+                            .putString(SharedPrefConstants.LOGIN_INFO, gson.toJson(
+                                UserLog(
+                                    email = email,
+                                    password = password
+                                )
+                            ))
                             .apply()
                 }
             }.addOnFailureListener {
@@ -150,7 +139,7 @@ class AuthRepoImp (
         id: String,
         result: (User?) -> Unit
     ) {
-        database.collection(FireStoreCollection.USER).document(id)
+        userCollection.document(id)
             .get()
             .addOnCompleteListener {
                 if (it.isSuccessful){
@@ -182,6 +171,63 @@ class AuthRepoImp (
         else {
             val user = gson.fromJson(log_str, UserLog::class.java)
             result.invoke(user)
+        }
+    }
+
+    override fun updateAccountSetting(
+        id: String,
+        accountSetting: UserAccountSetting,
+        result: (UiState<String>) -> Unit
+    ) {
+        val document = accountSettingCollection.document(id)
+        document
+            .set(accountSetting)
+            .addOnSuccessListener {
+                result.invoke(UiState.Success("User has been update successfully"))
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
+    }
+
+    override fun getAccountSetting(
+        id: String,
+        result: (UiState<String>) -> Unit)
+    {
+        storeSetting(id = id) {
+            if (it == null)
+                result.invoke(UiState.Failure("Failed to store local setting"))
+            else
+                result.invoke(UiState.Success("Get setting successfully!"))
+        }
+    }
+
+    override fun storeSetting(
+        id: String,
+        result: (UserAccountSetting?) -> Unit)
+    {
+        accountSettingCollection.document(id)
+            .get()
+            .addOnCompleteListener {
+                if (it.isSuccessful){
+                    val userSetting = it.result.toObject(UserAccountSetting::class.java)
+                    appPreferences.edit().putString(SharedPrefConstants.ACCOUNT_SETTING_SESSION, gson.toJson(userSetting)).apply()
+                    result.invoke(userSetting)
+                } else
+                    result.invoke(null)
+            }
+            .addOnFailureListener {
+                result.invoke(null)
+            }
+    }
+
+    override fun getSettingSession(result: (UserAccountSetting?) -> Unit) {
+        val setting = appPreferences.getString(SharedPrefConstants.ACCOUNT_SETTING_SESSION,null)
+        if (setting == null)
+            result.invoke(null)
+        else {
+            val userSetting = gson.fromJson(setting, UserAccountSetting::class.java)
+            result.invoke(userSetting)
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.khtn.freebies.fragment
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +12,12 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.khtn.freebies.R
 import com.khtn.freebies.adapter.ViewPagerAdapter
 import com.khtn.freebies.databinding.FragmentProfileBinding
+import com.khtn.freebies.helper.ImageUtils
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.helper.hide
 import com.khtn.freebies.helper.show
 import com.khtn.freebies.helper.toast
 import com.khtn.freebies.module.UserAccountSetting
-import com.khtn.freebies.viewmodel.AccountSettingViewModel
 import com.khtn.freebies.viewmodel.AuthViewModel
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var tabMedicator: TabLayoutMediator
-    private val viewModel: AccountSettingViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
 
     private val fragmentList = mutableListOf<Fragment>()
@@ -37,11 +38,8 @@ class ProfileFragment : Fragment() {
     ): View {
         binding = FragmentProfileBinding.inflate(inflater)
 
-        fragmentList.add(ArticlesFragment())
-        fragmentList.add(SpeciesLikedFragment())
-
-        titleList.add(getString(R.string.articles_uppercase))
-        titleList.add(getString(R.string.species_uppercase))
+        addView()
+        clickView()
 
         return binding.root
     }
@@ -67,12 +65,37 @@ class ProfileFragment : Fragment() {
         tabMedicator.attach()
 
         authViewModel.getSession {
-            it?.id?.let { it1 -> viewModel.getSetting(it1) }
+            it?.id?.let { it1 -> authViewModel.getSetting(it1) }
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.i("TAG_U", "onActivityResult: ")
+    }
+
+    private fun addView() {
+        if (fragmentList.isEmpty()) {
+            fragmentList.add(ArticlesFragment())
+            fragmentList.add(PlantLikedFragment())
+        }
+
+        if (titleList.isEmpty()) {
+            titleList.add(getString(R.string.articles_uppercase))
+            titleList.add(getString(R.string.species_uppercase))
+        }
+    }
+
+    private fun clickView() {
+        binding.ivAvatarInProfile.setOnClickListener {
+            ImageUtils.askPermission(this)
         }
     }
 
     private fun observe(){
-        viewModel.getSetting.observe(viewLifecycleOwner) { state ->
+        authViewModel.getSetting.observe(viewLifecycleOwner) { state ->
             when(state){
                 is UiState.Loading -> {
                     binding.shimmerProfile.startShimmer()
@@ -88,7 +111,7 @@ class ProfileFragment : Fragment() {
                     binding.shimmerProfile.stopShimmer()
                     binding.shimmerProfile.hide()
                     binding.layoutProfile.show()
-                    viewModel.getSettingSession { showInfo(it) }
+                    authViewModel.getSettingSession { showInfo(it) }
                 }
             }
         }

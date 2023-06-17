@@ -2,9 +2,7 @@ package com.khtn.freebies.di
 
 import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.StorageReference
+import com.google.firebase.firestore.CollectionReference
 import com.google.gson.Gson
 import com.khtn.freebies.repo.*
 import dagger.Module
@@ -19,46 +17,54 @@ object RepoModule {
     @Provides
     @Singleton
     fun provideAuthRepository(
-        database: FirebaseFirestore,
         auth: FirebaseAuth,
+        @UserCollection userCollection: CollectionReference,
+        @AccountSettingCollection accountSettingCollection: CollectionReference,
         appPreferences: SharedPreferences,
         gson: Gson
     ): AuthRepo {
-        return AuthRepoImp(auth,database,appPreferences,gson)
+        return AuthRepoImp(
+            auth, userCollection,
+            accountSettingCollection,
+            appPreferences, gson
+        )
     }
 
     @Provides
     @Singleton
     fun providePlantTypeRepository(
-        database: FirebaseFirestore,
+        @PlantTypeCollection plantTypeCollection: CollectionReference,
+        @PhotographyCollection photographyCollection: CollectionReference
     ): PlantTypeRepo {
-        return PlantTypeRepoImp(database)
-    }
-
-    @Provides
-    @Singleton
-    fun provideAccountSettingRepository(
-        database: FirebaseFirestore,
-        appPreferences: SharedPreferences,
-        gson: Gson
-    ): AccountSettingRepo {
-        return AccountSettingRepoImp(database, appPreferences, gson)
+        return PlantTypeRepoImp(plantTypeCollection, photographyCollection)
     }
 
     @Provides
     @Singleton
     fun provideSpeciesRepository(
-        database: FirebaseFirestore
+        @SpeciesCollection speciesCollection: CollectionReference
     ): SpeciesRepo {
-        return SpeciesRepoImp(database)
+        return SpeciesRepoImp(speciesCollection)
     }
 
     @Provides
     @Singleton
     fun providePlantsRepository(
-        database: FirebaseDatabase,
-        reference: StorageReference
+        @PlantCollection plantCollection: CollectionReference,
+        @FollowerCollection followerCollection: CollectionReference,
+        @FollowingCollection followingCollection: CollectionReference,
+        appPreferences: SharedPreferences,
+        gson: Gson
     ): PlantRepo {
-        return PlantRepoImp(database, reference)
+        return PlantRepoImp(plantCollection, followerCollection, followingCollection, appPreferences, gson)
+    }
+
+    @Provides
+    @Singleton
+    fun providePlantLikedRepository(
+        @FollowingCollection followingCollection: CollectionReference,
+        @PlantCollection plantCollection: CollectionReference
+    ): PlantLikedRepo {
+        return PlantLikedRepoImp(followingCollection, plantCollection)
     }
 }

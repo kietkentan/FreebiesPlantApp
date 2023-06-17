@@ -1,17 +1,20 @@
 package com.khtn.freebies.repo
 
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
+import com.khtn.freebies.di.PhotographyCollection
+import com.khtn.freebies.di.PlantTypeCollection
 import com.khtn.freebies.helper.FireStoreCollection
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.module.Photography
 import com.khtn.freebies.module.PlantType
 
 class PlantTypeRepoImp(
-    private val database: FirebaseFirestore
+    private val plantTypeCollection: CollectionReference,
+    private val photographyCollection: CollectionReference
 ): PlantTypeRepo {
     override fun getPlantType(result: (UiState<List<PlantType>>) -> Unit) {
-        database.collection(FireStoreCollection.PLANT_TYPE)
+        plantTypeCollection
             .get()
             .addOnSuccessListener {
                 val types = arrayListOf<PlantType>()
@@ -27,7 +30,7 @@ class PlantTypeRepoImp(
     }
 
     override fun getPhotographyTag(result: (UiState<List<Photography>>) -> Unit) {
-        database.collection(FireStoreCollection.PHOTOGRAPHY)
+        photographyCollection
             .get()
             .addOnSuccessListener {
                 val tags = arrayListOf<Photography>()

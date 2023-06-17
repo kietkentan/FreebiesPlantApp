@@ -2,9 +2,11 @@ package com.khtn.freebies.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.khtn.freebies.helper.FireStoreCollection
 import com.khtn.freebies.helper.FirebaseStorageConstants
 import dagger.Module
 import dagger.Provides
@@ -25,6 +27,62 @@ object FirebaseModule {
     @Singleton
     fun provideFireStoreInstance(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
+    }
+
+    @FollowingCollection
+    @Singleton
+    @Provides
+    fun provideFollowingCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection(FireStoreCollection.FOLLOWING)
+    }
+
+    @FollowerCollection
+    @Singleton
+    @Provides
+    fun provideFollowerCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection(FireStoreCollection.FOLLOWER)
+    }
+
+    @UserCollection
+    @Singleton
+    @Provides
+    fun provideUserCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection(FireStoreCollection.USER)
+    }
+
+    @AccountSettingCollection
+    @Singleton
+    @Provides
+    fun provideAccountSettingCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection(FireStoreCollection.ACCOUNT_SETTING)
+    }
+
+    @PlantCollection
+    @Singleton
+    @Provides
+    fun providePlantCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection(FireStoreCollection.PLANT)
+    }
+
+    @PlantTypeCollection
+    @Singleton
+    @Provides
+    fun providePlantTypeCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection(FireStoreCollection.PLANT_TYPE)
+    }
+
+    @PhotographyCollection
+    @Singleton
+    @Provides
+    fun providePhotographyCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection(FireStoreCollection.PHOTOGRAPHY)
+    }
+
+    @SpeciesCollection
+    @Singleton
+    @Provides
+    fun provideSpeciesCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection(FireStoreCollection.SPECIES)
     }
 
     @Provides

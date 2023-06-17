@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.preference.PreferenceManager
 import com.khtn.freebies.R
 import com.khtn.freebies.helper.checkAppStart
+import com.khtn.freebies.helper.transparentStatusBar
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Timer
 import kotlin.concurrent.schedule
@@ -28,12 +29,17 @@ class SplashActivity : AppCompatActivity() {
 
         Timer().schedule(2000){
             when (str.toString()) {
-                "NORMAL" -> startActivity(SetupUserActivity::class.java)
+                "NORMAL" -> startActivity(MainActivity::class.java)
 
                 "FIRST_TIME", "FIRST_TIME_VERSION" -> startActivity(OnboardActivity::class.java)
             }
             finish()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        transparentStatusBar(true)
     }
 
     private fun startActivity(clazz: Class<*>) {

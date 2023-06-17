@@ -33,6 +33,7 @@
     <string name="email_invalid">Invalid email</string>
     <string name="password_not_empty">Password must not be empty</string>
     <string name="password_invalid">Invalid password</string>
+    <string name="press_back_exit">Press Back again to exit</string>
     <string name="password_not_same">Passwords are not the same</string>
     <string name="profile">PROFILE</string>
     <string name="home">HOME</string>
@@ -51,4 +52,8 @@
     <string name="kingdom">kingdom</string>
     <string name="family">family</string>
     <string name="description">description</string>
+    <string name="camera_not_available">Camera not available</string>
+    <string name="take_photo">Take photo</string>
+    <string name="select_from_your_device">Select from your device</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -1,17 +1,24 @@
 package com.khtn.freebies.fragment
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.khtn.freebies.R
 import com.khtn.freebies.adapter.PhotographyAdapter
 import com.khtn.freebies.adapter.PlantTypeAdapter
 import com.khtn.freebies.databinding.FragmentHomeBinding
+import com.khtn.freebies.helper.ImageOptions
+import com.khtn.freebies.helper.ImageUtils
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.helper.hide
 import com.khtn.freebies.helper.show
@@ -27,6 +34,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
+    private var uri: Uri? = null
+
     private val plantTypeAdapter by lazy {
         PlantTypeAdapter(
             onItemClicked = {pos, item -> }
@@ -65,6 +74,16 @@ class HomeFragment : Fragment(), View.OnClickListener {
         viewModel.getPhotographyTag()
 
         binding.layoutSpecial.setOnClickListener(this@HomeFragment)
+        binding.layoutIdentify.setOnClickListener { ImageUtils.askPermission(this, ImageOptions.TAKE_PHOTO) }
+    }
+
+    @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ImageUtils.TAKE_PHOTO && resultCode == RESULT_OK) {
+            Log.i("TAG_U", "onActivityResult: ${ImageUtils.getPhotoUri(data)}")
+        }
     }
 
     private fun observe() {
@@ -122,7 +141,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.layout_special -> Navigation.findNavController(requireActivity(), R.id.nav_home).navigate(R.id.action_homeFragment_to_speciesFragment)
+            R.id.layout_special -> findNavController().navigate(R.id.action_homeFragment_to_speciesFragment)
         }
     }
 }

@@ -9,7 +9,41 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
 import javax.inject.Singleton
+import kotlin.coroutines.coroutineContext
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class FollowingCollection
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class FollowerCollection
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class UserCollection
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AccountSettingCollection
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class PlantCollection
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class PlantTypeCollection
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class PhotographyCollection
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class SpeciesCollection
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -26,5 +60,4 @@ object AppModule {
     fun provideGson(): Gson {
         return Gson()
     }
-
 }

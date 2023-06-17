@@ -13,7 +13,7 @@
         <FrameLayout
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="190dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -29,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:paddingHorizontal="20dp"
+                android:paddingTop="20dp"
                 android:layout_gravity="center_vertical">
 
                 <LinearLayout
@@ -60,10 +61,11 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_avatar_in_home"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:scaleType="centerCrop"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintDimensionRatio="1:1"
                     android:background="@mipmap/ic_launcher"
+                    android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
