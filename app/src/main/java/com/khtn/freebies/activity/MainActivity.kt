@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.khtn.freebies.R
 import com.khtn.freebies.databinding.ActivityMainBinding
+import com.khtn.freebies.helper.ImageOptions
 import com.khtn.freebies.helper.ImageUtils
 import com.khtn.freebies.helper.hide
 import com.khtn.freebies.helper.isValidDestination
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         initView()
+        clickView()
     }
 
     @Suppress("DEPRECATION")
@@ -75,6 +77,12 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigation.setOnNavigationItemSelectedListener(onBottomNavigationListener)
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    private fun clickView() {
+        binding.btnOpenGallery.setOnClickListener {
+            ImageUtils.askPermission(this, ImageOptions.CHOSE_GALLERY)
         }
     }
 
@@ -107,7 +115,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.i("TAG_U", "onRawActivityResult: $data")
-        if (requestCode == ImageUtils.FROM_GALLERY && resultCode == RESULT_OK) {
+        if (requestCode == ImageUtils.FROM_GALLERY_MAIN && resultCode == RESULT_OK) {
             uriList.clear()
             if (data?.clipData != null) {
                 val count: Int = data.clipData!!.itemCount

@@ -10,9 +10,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.google.android.material.imageview.ShapeableImageView
 import com.khtn.freebies.R
 import com.khtn.freebies.custom.DialogImageResourceSheet
 import com.khtn.freebies.custom.SheetListener
@@ -20,34 +24,33 @@ import java.io.File
 
 object ImageUtils {
     private const val PERMISSION_REQ_CODE = 114
-    const val FROM_GALLERY = 116
-    const val TAKE_PHOTO = 111
+    const val FROM_GALLERY_MAIN = 116
+    const val TAKE_PHOTO_HOME = 111
+    const val FROM_GALLERY_PROFILE = 120
+    const val TAKE_PHOTO_PROFILE = 124
 
     private var photoUri: Uri? = null
 
     fun askPermission(context: Fragment, option: Int) {
         if (checkStoragePermission(context.requireActivity())) {
             when (option) {
-                ImageOptions.CHOSE_GALLERY -> chooseGallery(context.requireActivity())
+                ImageOptions.CHOSE_GALLERY -> chooseGallery(context.requireActivity(), true, FROM_GALLERY_MAIN)
 
-                ImageOptions.TAKE_PHOTO -> takePhoto(context.requireActivity())
+                ImageOptions.TAKE_PHOTO -> takePhoto(context.requireActivity(), TAKE_PHOTO_HOME)
             }
         }
     }
 
     fun askPermission(context: Activity, option: Int) {
         if (checkStoragePermission(context)) {
-            when (option) {
-                ImageOptions.CHOSE_GALLERY -> chooseGallery(context)
-
-                ImageOptions.TAKE_PHOTO -> takePhoto(context)
-            }
+            if (option == ImageOptions.CHOSE_GALLERY)
+                chooseGallery(context, true, FROM_GALLERY_MAIN)
         }
     }
 
     fun askPermission(context: Fragment) {
         if (checkStoragePermission(context.requireActivity()))
-            showCameraOptions(context)
+            showCameraOptions(context, false)
     }
 
     private fun checkStoragePermission(context: Activity): Boolean {
@@ -59,14 +62,14 @@ object ImageUtils {
         )
     }
 
-    private fun showCameraOptions(context: Fragment) {
+    private fun showCameraOptions(context: Fragment, isMultiple: Boolean) {
         photoUri = null
         val builder = DialogImageResourceSheet.newInstance(Bundle())
         builder.addListener(object : SheetListener {
             override fun selectedItem(index: Int) {
                 when (index) {
-                    ImageOptions.TAKE_PHOTO -> takePhoto(context.requireActivity())
-                    ImageOptions.CHOSE_GALLERY -> chooseGallery(context.requireActivity())
+                    ImageOptions.TAKE_PHOTO -> takePhoto(context.requireActivity(), TAKE_PHOTO_PROFILE)
+                    ImageOptions.CHOSE_GALLERY -> chooseGallery(context.requireActivity(), isMultiple, FROM_GALLERY_PROFILE)
                     ImageOptions.CANCEL -> return
                 }
             }
@@ -74,20 +77,20 @@ object ImageUtils {
         builder.show(context.childFragmentManager, "")
     }
 
-    private fun chooseGallery(context: Activity) {
+    private fun chooseGallery(context: Activity, isMultiple: Boolean, reqCode: Int) {
         try {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, isMultiple)
             intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
-            context.startActivityForResult(intent, FROM_GALLERY)
+            context.startActivityForResult(intent, reqCode)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    private fun takePhoto(context: Activity) {
+    private fun takePhoto(context: Activity, reqCode: Int) {
         val fileName = "Snap_" + System.currentTimeMillis() / 1000 + ".jpg"
-        openCameraIntent(context, MediaStore.ACTION_IMAGE_CAPTURE, fileName, TAKE_PHOTO)
+        openCameraIntent(context, MediaStore.ACTION_IMAGE_CAPTURE, fileName, reqCode)
     }
 
     @SuppressLint("QueryPermissionsNeeded")
@@ -163,5 +166,38 @@ object ImageUtils {
             reqCode
         )
         return false
+    }
+
+    fun loadImageProfile(
+        shapeableImageView: ShapeableImageView,
+        url: String
+    ) {
+        Glide.with(shapeableImageView.context)
+            .load(url)
+            .placeholder(R.mipmap.ic_launcher)
+            .error(R.mipmap.ic_launcher)
+            .into(shapeableImageView)
+    }
+
+    fun loadImage(
+        imageView: ImageView,
+        url: String
+    ) {
+        Glide.with(imageView.context)
+            .load(url)
+            .placeholder(R.mipmap.ic_launcher)
+            .error(R.mipmap.ic_launcher)
+            .into(imageView)
+    }
+
+    fun loadImage(
+        imageView: ImageView,
+        @DrawableRes src: Int
+    ) {
+        Glide.with(imageView.context)
+            .load(src)
+            .placeholder(R.mipmap.ic_launcher)
+            .error(R.mipmap.ic_launcher)
+            .into(imageView)
     }
 }

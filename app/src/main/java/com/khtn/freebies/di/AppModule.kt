@@ -3,6 +3,7 @@ package com.khtn.freebies.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.khtn.freebies.activity.MainActivity
 import com.khtn.freebies.helper.SharedPrefConstants
 import dagger.Module
 import dagger.Provides
@@ -45,6 +46,18 @@ annotation class PhotographyCollection
 @Retention(AnnotationRetention.BINARY)
 annotation class SpeciesCollection
 
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ArticlesCollection
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class BookMarkCollection
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AvatarStorage
+
 @InstallIn(SingletonComponent::class)
 @Module
 object AppModule {
@@ -59,5 +72,10 @@ object AppModule {
     @Singleton
     fun provideGson(): Gson {
         return Gson()
+    }
+
+    @Provides
+    fun provideMainActivity(): MainActivity {
+        return MainActivity()
     }
 }

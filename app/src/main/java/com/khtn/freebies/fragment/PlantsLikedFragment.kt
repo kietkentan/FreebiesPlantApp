@@ -1,6 +1,7 @@
 package com.khtn.freebies.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.khtn.freebies.R
 import com.khtn.freebies.adapter.PlantItemAdapter
 import com.khtn.freebies.databinding.FragmentPlantLikedBinding
 import com.khtn.freebies.helper.UiState
+import com.khtn.freebies.helper.deepEqualTo
 import com.khtn.freebies.helper.hide
 import com.khtn.freebies.helper.show
 import com.khtn.freebies.helper.toast
@@ -19,7 +21,7 @@ import com.khtn.freebies.viewmodel.PlantLikedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PlantLikedFragment : Fragment() {
+class PlantsLikedFragment : Fragment() {
     private lateinit var binding: FragmentPlantLikedBinding
     private val viewModel: PlantLikedViewModel by viewModels()
 
@@ -49,7 +51,11 @@ class PlantLikedFragment : Fragment() {
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recListPlantLiked.layoutManager = linearLayoutManager
         binding.recListPlantLiked.adapter = adapter
+    }
 
+    override fun onResume() {
+        Log.i("TAG_U", "onResume: ")
+        super.onResume()
         viewModel.getSession {
             it?.id?.let { it1 -> viewModel.getListPlantLiked(it1) }
         }
@@ -64,13 +70,14 @@ class PlantLikedFragment : Fragment() {
                     binding.shimmerPlantList.startShimmer()
                 }
 
-                is UiState.Failure -> toast(state.error)
+                is UiState.Failure -> requireContext().toast(state.error)
 
                 is UiState.Success -> {
                     binding.shimmerPlantList.stopShimmer()
                     binding.shimmerPlantList.hide()
                     binding.recListPlantLiked.show()
-                    adapter.updateList(state.data.toMutableList())
+                    if (!adapter.getList().deepEqualTo(state.data))
+                        adapter.updateList(state.data.toMutableList())
                 }
             }
         }

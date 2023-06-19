@@ -85,6 +85,20 @@ object FirebaseModule {
         return firestore.collection(FireStoreCollection.SPECIES)
     }
 
+    @ArticlesCollection
+    @Singleton
+    @Provides
+    fun provideArticlesCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection(FireStoreCollection.ARTICLE)
+    }
+
+    @BookMarkCollection
+    @Singleton
+    @Provides
+    fun provideBookMarkCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection(FireStoreCollection.BOOK_MARK)
+    }
+
     @Provides
     @Singleton
     fun provideFirebaseAuthInstance(): FirebaseAuth {
@@ -93,8 +107,14 @@ object FirebaseModule {
 
     @Singleton
     @Provides
-    fun provideFirebaseStorageInstance(): StorageReference {
-        return FirebaseStorage.getInstance().getReference(FirebaseStorageConstants.ROOT_DIRECTORY)
+    fun provideFirebaseStorageInstance(): FirebaseStorage {
+        return FirebaseStorage.getInstance()
     }
 
+    @AvatarStorage
+    @Provides
+    @Singleton
+    fun provideAvatarStorageReference(storage: FirebaseStorage): StorageReference {
+        return storage.getReference(FirebaseStorageConstants.AVATAR)
+    }
 }

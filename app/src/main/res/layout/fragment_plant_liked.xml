@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.PlantLikedFragment">
+    android:background="@color/background"
+    tools:context=".fragment.PlantsLikedFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rec_list_plant_liked"
@@ -15,7 +16,8 @@
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_plant_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"

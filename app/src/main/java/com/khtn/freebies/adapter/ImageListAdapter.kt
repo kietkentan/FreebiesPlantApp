@@ -5,13 +5,13 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.khtn.freebies.databinding.ItemImage1Binding
-import com.squareup.picasso.Picasso
 
 class ImageListAdapter(
-    val onItemClicked: (Uri) -> Unit
+    val onItemClicked: (String) -> Unit
 ): RecyclerView.Adapter<ImageListAdapter.MyViewHolder>() {
-    private var list: MutableList<Uri> = arrayListOf()
+    private var list: MutableList<String> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = ItemImage1Binding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,7 +24,7 @@ class ImageListAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(list: MutableList<Uri>) {
+    fun updateList(list: MutableList<String>) {
         this.list = list
         notifyDataSetChanged()
     }
@@ -34,8 +34,8 @@ class ImageListAdapter(
     }
 
     inner class MyViewHolder(private val binding: ItemImage1Binding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(uri: Uri) {
-            Picasso.get().load(uri).into(binding.ivImage1)
+        fun bind(uri: String) {
+            binding.img = uri
             binding.ivImage1.setOnClickListener { onItemClicked(uri) }
         }
     }

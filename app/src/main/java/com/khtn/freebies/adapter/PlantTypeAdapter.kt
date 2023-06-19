@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.khtn.freebies.databinding.ItemPlantTypeBinding
 import com.khtn.freebies.module.PlantType
-import com.squareup.picasso.Picasso
 
 class PlantTypeAdapter(
     val onItemClicked: (Int, PlantType) -> Unit
@@ -35,9 +35,7 @@ class PlantTypeAdapter(
 
     inner class MyViewHolder(private val binding: ItemPlantTypeBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PlantType){
-            Picasso.get().load(item.image).into(binding.ivPlantType)
-            binding.tvPlantType.text = item.name
-            binding.tvPlantTypeQuantity.text = item.quantity.toString()
+            binding.type = item
         }
     }
 }

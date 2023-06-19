@@ -56,7 +56,10 @@ object RepoModule {
         appPreferences: SharedPreferences,
         gson: Gson
     ): PlantRepo {
-        return PlantRepoImp(plantCollection, followerCollection, followingCollection, appPreferences, gson)
+        return PlantRepoImp(
+            plantCollection, followerCollection,
+            followingCollection, appPreferences, gson
+        )
     }
 
     @Provides
@@ -66,5 +69,23 @@ object RepoModule {
         @PlantCollection plantCollection: CollectionReference
     ): PlantLikedRepo {
         return PlantLikedRepoImp(followingCollection, plantCollection)
+    }
+
+    @Provides
+    @Singleton
+    fun provideArticlesRepository(
+        @ArticlesCollection articlesCollection: CollectionReference,
+        @UserCollection userCollection: CollectionReference,
+        @FollowingCollection followingCollection: CollectionReference,
+        @FollowerCollection followerCollection: CollectionReference,
+        @BookMarkCollection bookMarkCollection: CollectionReference,
+        appPreferences: SharedPreferences,
+        gson: Gson
+    ): ArticlesRepo {
+        return ArticlesRepoImp(
+            articlesCollection, userCollection,
+            followingCollection, followerCollection,
+            bookMarkCollection, appPreferences, gson
+        )
     }
 }

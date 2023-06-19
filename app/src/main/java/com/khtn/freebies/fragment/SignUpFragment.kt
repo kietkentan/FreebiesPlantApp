@@ -75,14 +75,14 @@ class SignUpFragment : Fragment(), View.OnClickListener {
                     binding.btnSignUp.text = getText(R.string.sign_up)
                     binding.btnSignUp.isEnabled = true
                     binding.progressSignUp.hide()
-                    toast(state.error)
+                    requireContext().toast(state.error)
                 }
 
                 is UiState.Success -> {
                     binding.btnSignUp.text = getText(R.string.sign_up)
                     binding.btnSignUp.isEnabled = true
                     binding.progressSignUp.hide()
-                    toast(state.data)
+                    requireContext().toast(state.data)
                     findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
                 }
             }

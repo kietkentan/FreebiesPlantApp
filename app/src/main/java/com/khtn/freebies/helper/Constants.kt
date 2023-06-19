@@ -5,6 +5,8 @@ object FireStoreCollection {
     const val PLANT_TYPE = "plant_type"
     const val PHOTOGRAPHY = "photography"
     const val SPECIES = "species"
+    const val ARTICLE = "article"
+    const val BOOK_MARK = "book_mark"
     const val USER = "user"
     const val ACCOUNT_SETTING = "user_account_setting"
     const val FOLLOWER = "follower"
@@ -33,5 +35,16 @@ object SharedPrefConstants {
 }
 
 object FirebaseStorageConstants {
-    const val ROOT_DIRECTORY = "app"
+    const val AVATAR = "avatar"
+    const val PLANT = "plant"
+}
+
+object WorkerConstants {
+    const val PROFILE_DATA = "profile_data"
+    const val PROFILE_IMAGE_URL = "profile_image_url"
+}
+
+object AppConstant {
+    const val PLANT = "plant"
+    const val SPECIES = "species"
 }

@@ -8,7 +8,8 @@ import com.khtn.freebies.module.UserLog
 interface AuthRepo {
     // Account
     fun registerUser(password: String, user: User, result: (UiState<String>) -> Unit)
-    fun updateUserInfo(user: User, result: (UiState<String>) -> Unit)
+    fun createUserInfo(user: User, result: (UiState<String>) -> Unit)
+    fun updateUserInfo(userAccountSetting: UserAccountSetting, result: (UiState<String>) -> Unit)
     fun loginUser(email: String, password: String, save: Boolean, result: (UiState<String>) -> Unit)
     fun forgotPassword(email: String, result: (UiState<String>) -> Unit)
     fun logout(result: () -> Unit)
@@ -17,7 +18,7 @@ interface AuthRepo {
     fun getLoginInfo(result: (UserLog?) -> Unit)
 
     // Setting
-    fun updateAccountSetting(id: String, accountSetting: UserAccountSetting, result: (UiState<String>) -> Unit)
+    fun updateAccountSetting(accountSetting: UserAccountSetting, result: (UiState<String>) -> Unit)
     fun getAccountSetting(id: String, result: (UiState<String>) -> Unit)
     fun storeSetting(id: String, result: (UserAccountSetting?) -> Unit)
     fun getSettingSession(result: (UserAccountSetting?) -> Unit)

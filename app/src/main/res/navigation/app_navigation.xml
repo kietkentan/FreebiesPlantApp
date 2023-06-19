@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_homeFragment_to_speciesFragment"
             app:destination="@id/speciesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_articlesListFragment"
+            app:destination="@id/articlesListFragment" />
     </fragment>
 
     <fragment
@@ -97,5 +100,13 @@
         <action
             android:id="@+id/action_profileFragment_to_plantDetailFragment"
             app:destination="@id/plantDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/articlesListFragment"
+        android:name="com.khtn.freebies.fragment.ArticlesListFragment"
+        android:label="ArticlesListFragment" >
+        <action
+            android:id="@+id/action_articlesListFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

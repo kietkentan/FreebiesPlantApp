@@ -54,7 +54,7 @@ class PlantsListFragment : Fragment() {
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         @Suppress("DEPRECATION")
-        objSpecies = arguments?.getParcelable("species")
+        objSpecies = arguments?.getParcelable(AppConstant.SPECIES)
 
         binding.recPlant.layoutManager = linearLayoutManager
         binding.recPlant.adapter = adapter
@@ -75,7 +75,7 @@ class PlantsListFragment : Fragment() {
                     binding.shimmerPlantList.startShimmer()
                 }
 
-                is UiState.Failure -> toast(state.error)
+                is UiState.Failure -> requireContext().toast(state.error)
 
                 is UiState.Success -> {
                     binding.shimmerPlantList.stopShimmer()

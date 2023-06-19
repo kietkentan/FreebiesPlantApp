@@ -1,12 +1,10 @@
 package com.khtn.freebies.fragment
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +14,6 @@ import com.khtn.freebies.databinding.FragmentPlantDetailBinding
 import com.khtn.freebies.helper.*
 import com.khtn.freebies.module.Plant
 import com.khtn.freebies.viewmodel.PlantViewModel
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,12 +21,14 @@ class PlantDetailFragment : Fragment() {
     private lateinit var binding: FragmentPlantDetailBinding
     private val viewModel: PlantViewModel by viewModels()
     private var objPlant: Plant? = null
-    private var imageUris: MutableList<Uri> = arrayListOf()
+    private var imageUris: MutableList<String> = arrayListOf()
     private var isFavorite: Boolean = false
     private var id: String = ""
     private val adapterImage by lazy {
         ImageListAdapter(
-            onItemClicked = {uri -> Picasso.get().load(uri).into(binding.ivItemReview)}
+            onItemClicked = { uri ->
+                ImageUtils.loadImage(binding.ivItemReview, uri)
+            }
         )
     }
 
@@ -60,7 +59,7 @@ class PlantDetailFragment : Fragment() {
                 is UiState.Failure -> {
                     binding.ivFavorite.hide()
                     isFavorite = false
-                    toast(state.error)
+                    requireContext().toast(state.error)
                 }
 
                 is UiState.Success -> {
@@ -75,32 +74,22 @@ class PlantDetailFragment : Fragment() {
 
     @Suppress("DEPRECATION")
     private fun updateUI() {
-        objPlant = arguments?.getParcelable("plant")
+        objPlant = arguments?.getParcelable(AppConstant.PLANT)
         binding.recListReview.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.recListReview.adapter = adapterImage
 
         binding.ivSeeMore.alpha = 0.8F
 
         objPlant?.let { it ->
+            binding.detail = it
+            setupImageReview(it.images)
+
             viewModel.getSession {
                 it?.let {
                     viewModel.checkFavoritePlant(it.id, objPlant!!.id)
                     id = it.id
                 }
             }
-            setupImageReview(it.images)
-            addTags(it.tags)
-
-            binding.tvNamePlantDetail.text = it.name
-            binding.tvDescriptionPlantDetail.text = it.description
-
-            if (it.kingdom.isNotEmpty())
-                binding.tvKingdomDetail.text = it.kingdom
-            else binding.layoutKingdomDetail.hide()
-
-            if (it.family.isNotEmpty())
-                binding.tvFamilyDetail.text = it.family
-            else binding.layoutFamilyDetail.hide()
         }
 
         binding.ibExitPlantDetail.setOnClickListener {
@@ -147,20 +136,13 @@ class PlantDetailFragment : Fragment() {
             viewModel.addFavoritePlant(id, objPlant!!.id)
     }
 
-    private fun addTags(tags: MutableList<String>) {
-        if (tags.size > 0) {
-            binding.tagsPlantDetail.apply {
-                removeAllViews()
-                tags.forEachIndexed { _, tag -> addChip(tag, true) }
-            }
-        }
-    }
-
     private fun setupImageReview(list: List<String>) {
-        imageUris = list.map { it.toUri() }.toMutableList()
+        imageUris = list.map { it }.toMutableList()
         imageUris.reverse()
         adapterImage.updateList(imageUris)
-        imageUris[0].let { Picasso.get().load(it).into(binding.ivItemReview) }
+        imageUris[0].let {
+            ImageUtils.loadImage(binding.ivItemReview, it)
+        }
         binding.ivSeeMore.visibility = if (imageUris.size > 1) View.VISIBLE else View.GONE
     }
 }

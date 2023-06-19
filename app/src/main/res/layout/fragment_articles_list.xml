@@ -9,7 +9,7 @@
         android:background="@color/background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/constraintLayoutArticles"
             android:layout_width="match_parent"
             android:layout_height="190dp"
             app:layout_constraintTop_toTopOf="parent">
@@ -22,7 +22,7 @@
                 tools:ignore="ContentDescription" />
 
             <ImageButton
-                android:id="@+id/ib_exit_plants"
+                android:id="@+id/ib_exit_articles"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
@@ -35,13 +35,13 @@
                 tools:ignore="ContentDescription,TouchTargetSizeCheck,SpeakableTextPresentCheck,ImageContrastCheck" />
 
             <TextView
-                android:id="@+id/tv_name_species"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:textColor="@color/white"
                 android:textSize="30sp"
+                android:text="@string/articles"
                 android:textStyle="bold|normal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rec_plant"
+            android:id="@+id/rec_articles"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="45dp"
@@ -58,10 +58,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayoutArticles" />
 
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_plant_list"
+            android:id="@+id/shimmer_articles_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="45dp"
@@ -69,22 +69,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayoutArticles">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <include layout="@layout/shimmer_item_plant"/>
-                <include layout="@layout/shimmer_item_plant"/>
-                <include layout="@layout/shimmer_item_plant"/>
-                <include layout="@layout/shimmer_item_plant"/>
+                <include layout="@layout/shimmer_item_articles"/>
+                <include layout="@layout/shimmer_item_articles"/>
+                <include layout="@layout/shimmer_item_articles"/>
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
 
         <EditText
-            android:id="@+id/edt_search_plant"
+            android:id="@+id/edt_search_article"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginHorizontal="20dp"
@@ -95,7 +94,7 @@
             android:maxLines="1"
             android:inputType="text"
             android:gravity="center_vertical"
-            android:hint="@string/search_for"
+            android:hint="@string/search_for_articles"
             android:importantForAutofill="no"
             android:paddingHorizontal="25dp"
             android:layout_marginTop="-25dp"
@@ -105,7 +104,7 @@
             app:drawableTint="@color/text_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayoutArticles"
             tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck,TextFields,UseCompatTextViewDrawableXml" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

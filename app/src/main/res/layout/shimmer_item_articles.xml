@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="13dp"
+    android:background="@color/white"
+    android:elevation="5dp"
+    android:layout_marginVertical="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_articles_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/background_shimmer"
+            app:layout_constraintDimensionRatio="1:0.438"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <FrameLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/iv_articles_thumbnail">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="2"
+                android:paddingVertical="5dp"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/background_shimmer"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            app:layout_constraintTop_toBottomOf="@id/layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginVertical="10dp"
+            android:paddingHorizontal="20dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="28dp"
+                android:layout_height="match_parent"
+                android:background="@color/background_shimmer"
+                app:shapeAppearanceOverlay="@style/ShapeImageStyle_Avatar"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingHorizontal="10dp">
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textSize="11sp"
+                    android:background="@color/background_shimmer"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/name_plant"/>
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/big_tag"
+                    android:gravity="center_vertical"
+                    android:background="@color/background_shimmer"
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -26,7 +26,6 @@ import com.khtn.freebies.module.Species
 import com.khtn.freebies.viewmodel.SpecieViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class SpeciesFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentSpeciesBinding
@@ -100,7 +99,7 @@ class SpeciesFragment : Fragment(), View.OnClickListener {
                 is UiState.Loading -> {}
 
                 is UiState.Failure -> {
-                    toast(state.error)
+                    requireContext().toast(state.error)
                 }
 
                 is UiState.Success -> {

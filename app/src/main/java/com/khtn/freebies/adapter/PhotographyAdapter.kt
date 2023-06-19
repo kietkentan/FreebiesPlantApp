@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.khtn.freebies.databinding.ItemPhotographyBinding
 import com.khtn.freebies.module.Photography
-import com.squareup.picasso.Picasso
 
 class PhotographyAdapter (
     val onItemClicked: (Photography) -> Unit
@@ -36,9 +36,7 @@ class PhotographyAdapter (
     inner class MyViewHolder(private val binding: ItemPhotographyBinding): RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: Photography) {
-            Picasso.get().load(item.image).into(binding.ivPhotography)
-            binding.tvTagPhotography.text = "#${item.tag}"
-            binding.tvTagPhotography.alpha = 0.6F
+            binding.photography = item
         }
     }
 }

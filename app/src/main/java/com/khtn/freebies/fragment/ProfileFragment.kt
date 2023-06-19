@@ -1,25 +1,26 @@
 package com.khtn.freebies.fragment
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.khtn.freebies.R
 import com.khtn.freebies.adapter.ViewPagerAdapter
 import com.khtn.freebies.databinding.FragmentProfileBinding
 import com.khtn.freebies.helper.ImageUtils
 import com.khtn.freebies.helper.UiState
+import com.khtn.freebies.helper.forEachChildView
 import com.khtn.freebies.helper.hide
 import com.khtn.freebies.helper.show
 import com.khtn.freebies.helper.toast
 import com.khtn.freebies.module.UserAccountSetting
 import com.khtn.freebies.viewmodel.AuthViewModel
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,6 +31,8 @@ class ProfileFragment : Fragment() {
 
     private val fragmentList = mutableListOf<Fragment>()
     private val titleList = mutableListOf<String>()
+    private var userAccountSetting: UserAccountSetting? = null
+    private var currentItem: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +56,7 @@ class ProfileFragment : Fragment() {
             parentFragmentManager,
             lifecycle
         )
-        binding.viewPagerOnprofile.currentItem = 1
+        binding.viewPagerOnprofile.currentItem = currentItem
 
         tabMedicator = TabLayoutMediator(
             binding.tabInProfile,
@@ -67,19 +70,33 @@ class ProfileFragment : Fragment() {
         authViewModel.getSession {
             it?.id?.let { it1 -> authViewModel.getSetting(it1) }
         }
+
+        binding.viewPagerOnprofile.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                currentItem = position
+            }
+        })
     }
 
     @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.i("TAG_U", "onActivityResult: ")
+        if (resultCode == RESULT_OK && data!!.data != null) {
+            val uri = ImageUtils.getPhotoUri(data).toString()
+
+            if (userAccountSetting != null && uri.isNotEmpty()) {
+                userAccountSetting!!.profile_photo = uri
+                authViewModel.uploadToCloud(userAccountSetting!!)
+            }
+        }
     }
 
     private fun addView() {
         if (fragmentList.isEmpty()) {
             fragmentList.add(ArticlesFragment())
-            fragmentList.add(PlantLikedFragment())
+            fragmentList.add(PlantsLikedFragment())
         }
 
         if (titleList.isEmpty()) {
@@ -94,6 +111,11 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        fragmentList[currentItem].onResume()
+    }
+
     private fun observe(){
         authViewModel.getSetting.observe(viewLifecycleOwner) { state ->
             when(state){
@@ -105,24 +127,38 @@ class ProfileFragment : Fragment() {
                     binding.shimmerProfile.stopShimmer()
                     binding.shimmerProfile.hide()
                     binding.layoutProfile.show()
-                    toast(state.error)
+                    requireContext().toast(state.error)
                 }
                 is UiState.Success -> {
                     binding.shimmerProfile.stopShimmer()
                     binding.shimmerProfile.hide()
                     binding.layoutProfile.show()
-                    authViewModel.getSettingSession { showInfo(it) }
+                    authViewModel.getSettingSession {
+                        binding.profile = it
+                        userAccountSetting = it
+                    }
                 }
             }
         }
-    }
 
-    private fun showInfo(userAccountSetting: UserAccountSetting?) {
-        if (!userAccountSetting?.profile_photo.isNullOrEmpty())
-            Picasso.get().load(userAccountSetting?.profile_photo).into(binding.ivAvatarInProfile)
-        binding.tvNameInProfile.text = userAccountSetting?.display_name
-        binding.tvLocationInProfile.text = if (userAccountSetting?.location.isNullOrEmpty())
-            getText(R.string.unlocated) else
-                userAccountSetting?.location
+        authViewModel.uploadProfile.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                    binding.progressProfile.show()
+                    this.view?.forEachChildView { it.isEnabled = false }
+                }
+
+                is UiState.Failure -> {
+                    binding.progressProfile.hide()
+                    requireContext().toast(state.error)
+                    this.view?.forEachChildView { it.isEnabled = true }
+                }
+
+                is UiState.Success -> {
+                    binding.progressProfile.hide()
+                    this.view?.forEachChildView { it.isEnabled = true }
+                }
+            }
+        }
     }
 }

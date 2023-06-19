@@ -40,12 +40,34 @@ fun NavController.isValidDestination(destination: Int): Boolean {
     return destination == this.currentDestination!!.id
 }
 
-fun Fragment.toast(msg: String?){
-    Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+fun Context.toast(msg: String?){
+    Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
 }
 
-fun Activity.toast(msg: String?){
-    Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+fun View.forEachChildView(closure: (View) -> Unit) {
+    closure(this)
+    val groupView = this as? ViewGroup ?: return
+    val size = groupView.childCount - 1
+    for (i in 0..size) {
+        groupView.getChildAt(i).forEachChildView(closure)
+    }
+}
+
+infix fun <T> Collection<T>.deepEqualTo(other: Collection<T>): Boolean {
+    // check collections aren't same
+    if (this !== other) {
+        // fast check of sizes
+        if (this.size != other.size) return false
+        val areNotEqual = this.asSequence()
+            .zip(other.asSequence())
+            // check this and other contains same elements at position
+            .map { (fromThis, fromOther) -> fromThis == fromOther }
+            // searching for first negative answer
+            .contains(false)
+        if (areNotEqual) return false
+    }
+    // collections are same or they are contains same elements with same order
+    return true
 }
 
 @SuppressLint("InlinedApi")

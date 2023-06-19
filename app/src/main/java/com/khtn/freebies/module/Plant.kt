@@ -8,7 +8,6 @@ import java.util.Date
 @Parcelize
 data class Plant(
     var id: String = "",
-    var uploaderId: String = "",
     val name: String = "",
     val kingdom: String = "",
     val family: String = "",
@@ -16,6 +15,7 @@ data class Plant(
     val description: String = "",
     val images: List<String> = arrayListOf(),
     val tags: MutableList<String> = arrayListOf(),
-    @ServerTimestamp
-    val date: Date = Date()
+    val createAt: Long = 0,
+    val updateAt: Long = 0,
+    val createBy: String = ""
 ): Parcelable

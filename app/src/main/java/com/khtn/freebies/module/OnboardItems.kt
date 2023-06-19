@@ -1,10 +1,15 @@
 package com.khtn.freebies.module
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.khtn.freebies.R
 
 class OnboardItems(
+    @DrawableRes
     val image : Int,
+    @StringRes
     val title : Int,
+    @StringRes
     val desc : Int
 ) {
     companion object {

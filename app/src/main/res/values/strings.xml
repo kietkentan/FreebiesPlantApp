@@ -47,7 +47,9 @@
     <string name="quantity_types_of_plants">Types of Plants</string>
     <string name="unlocated">UnLocated</string>
     <string name="species">Species</string>
+    <string name="articles">Articles</string>
     <string name="search_for_species">Search For Species</string>
+    <string name="search_for_articles">Search For Articles</string>
     <string name="search_for">Search For</string>
     <string name="kingdom">kingdom</string>
     <string name="family">family</string>
@@ -56,4 +58,5 @@
     <string name="take_photo">Take photo</string>
     <string name="select_from_your_device">Select from your device</string>
     <string name="cancel">Cancel</string>
+    <string name="upload_sucess">Upload success</string>
 </resources>

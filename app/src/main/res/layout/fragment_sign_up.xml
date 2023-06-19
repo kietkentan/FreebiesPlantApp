@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragment.SignUpFragment">
+        android:background="@color/background">
 
         <ImageButton
             android:id="@+id/ib_exit_sign_up"

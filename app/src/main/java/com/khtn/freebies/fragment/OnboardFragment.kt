@@ -25,10 +25,7 @@ class OnboardFragment(items : OnboardItems) : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentOnboardBinding.inflate(inflater)
-
-        binding.ivIntro.setImageResource(item.image)
-        binding.tvTitleIntro.text = getText(item.title)
-        binding.tvTextIntro.text = getText(item.desc)
+        binding.onboarding = item
 
         return binding.root
     }

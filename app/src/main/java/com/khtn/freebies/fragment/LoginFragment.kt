@@ -79,7 +79,7 @@ class LoginFragment: Fragment(), View.OnClickListener{
                     binding.btnLogin.text = getText(R.string.login)
                     binding.btnLogin.isEnabled = true
                     binding.progressLogin.hide()
-                    toast(state.error)
+                    requireContext().toast(state.error)
                 }
 
                 is UiState.Success -> {

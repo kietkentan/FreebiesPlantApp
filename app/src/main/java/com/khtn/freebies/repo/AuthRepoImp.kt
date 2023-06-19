@@ -8,7 +8,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.CollectionReference
 import com.google.gson.Gson
-import com.khtn.freebies.helper.FireStoreCollection
 import com.khtn.freebies.helper.SharedPrefConstants
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.module.User
@@ -32,22 +31,8 @@ class AuthRepoImp (
                 if (it.isSuccessful) {
                     user.id = it.result.user?.uid ?: ""
 
-                    updateUserInfo(user) { state ->
-                        if (state is UiState.Success) {
-                            updateAccountSetting(
-                                id = it.result.user?.uid ?: "",
-                                UserAccountSetting(display_name = user.name)
-                            ) { state1 ->
-                                if (state1 is UiState.Success)
-                                    storeSession(id = it.result.user?.uid ?: "") { it1 ->
-                                        if (it1 == null)
-                                            result.invoke(UiState.Failure("User register successfully but session failed to store"))
-                                        else
-                                            result.invoke(UiState.Success("User register successfully!"))
-                                    }
-                            }
-                        }
-                        else if (state is UiState.Failure) result.invoke(UiState.Failure(state.error))
+                    createUserInfo(user) { state ->
+                        result.invoke(state)
                     }
                 } else {
                     try {
@@ -68,7 +53,7 @@ class AuthRepoImp (
             }
     }
 
-    override fun updateUserInfo(
+    override fun createUserInfo(
         user: User,
         result: (UiState<String>) -> Unit
     ) {
@@ -76,7 +61,35 @@ class AuthRepoImp (
         document
             .set(user)
             .addOnSuccessListener {
-                result.invoke(UiState.Success("User has been update successfully"))
+                updateAccountSetting(
+                    UserAccountSetting(
+                        id = user.id,
+                        display_name = user.name
+                    )
+                ) { state1 ->
+                    result.invoke(state1)
+                }
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
+    }
+
+    override fun updateUserInfo(
+        userAccountSetting: UserAccountSetting,
+        result: (UiState<String>) -> Unit
+    ) {
+        val document = userCollection.document(userAccountSetting.id)
+        val map: HashMap<String, Any> = hashMapOf()
+        map["name"] = userAccountSetting.display_name
+        map["avatar"] = userAccountSetting.profile_photo!!
+        document
+            .update(map)
+            .addOnSuccessListener {
+                Log.i("TAG_U", "updateUserInfo: ")
+                updateAccountSetting(userAccountSetting) { state1 ->
+                    result.invoke(state1)
+                }
             }
             .addOnFailureListener {
                 result.invoke(UiState.Failure(it.localizedMessage))
@@ -98,6 +111,7 @@ class AuthRepoImp (
                         else
                             result.invoke(UiState.Success("Login successfully!"))
                     }
+
                     if (save)
                         appPreferences.edit()
                             .putString(SharedPrefConstants.LOGIN_INFO, gson.toJson(
@@ -175,15 +189,20 @@ class AuthRepoImp (
     }
 
     override fun updateAccountSetting(
-        id: String,
         accountSetting: UserAccountSetting,
         result: (UiState<String>) -> Unit
     ) {
-        val document = accountSettingCollection.document(id)
+        val document = accountSettingCollection.document(accountSetting.id)
         document
             .set(accountSetting)
             .addOnSuccessListener {
-                result.invoke(UiState.Success("User has been update successfully"))
+                Log.i("TAG_U", "updateAccountSetting: ")
+                storeSession(id = accountSetting.id) { it1 ->
+                    if (it1 == null)
+                        result.invoke(UiState.Failure("User register successfully but session failed to store"))
+                    else
+                        result.invoke(UiState.Success("User register successfully!"))
+                }
             }
             .addOnFailureListener {
                 result.invoke(UiState.Failure(it.localizedMessage))

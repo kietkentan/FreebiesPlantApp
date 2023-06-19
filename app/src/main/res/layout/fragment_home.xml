@@ -1,264 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="header"
+            type="com.khtn.freebies.module.User" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".fragment.HomeFragment">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="190dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="@color/background">
 
-            <ImageView
+            <FrameLayout
+                android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/background_sort_info"
-                android:scaleType="centerCrop"
-                tools:ignore="ContentDescription" />
+                android:layout_height="190dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:paddingHorizontal="20dp"
-                android:paddingTop="20dp"
-                android:layout_gravity="center_vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <TextView
-                        android:id="@+id/tv_name_in_home"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/hello"
-                        android:textColor="@color/white"
-                        android:textSize="25sp"
-                        android:textStyle="bold|normal"
-                        tools:ignore="TextContrastCheck" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="bottom"
-                        android:text="@string/intro_3"
-                        android:textColor="@color/white"
-                        tools:ignore="TextContrastCheck" />
-                </LinearLayout>
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_avatar_in_home"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    app:layout_constraintDimensionRatio="1:1"
-                    android:background="@mipmap/ic_launcher"
+                    android:src="@drawable/background_sort_info"
                     android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:shapeAppearanceOverlay="@style/ShapeImageStyle_Avatar"
-                    tools:ignore="ImageContrastCheck" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </FrameLayout>
+                    tools:ignore="ContentDescription" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-            android:paddingTop="45dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingTop="20dp"
+                    android:layout_gravity="center_vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:paddingHorizontal="15dp"
-                tools:ignore="DisableBaselineAlignment,UselessParent">
-
-                <LinearLayout
-                    android:id="@+id/layout_identify"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.3"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:background="@drawable/custom_button_1"
-                    android:elevation="10dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="10dp"
-                    android:outlineSpotShadowColor="#00FF96"
-                    android:outlineAmbientShadowColor="#00FF96"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    tools:ignore="RtlSymmetry,UnusedAttribute">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_camera"
-                        tools:ignore="ContentDescription,ImageContrastCheck" />
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/identify_uppercase"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        tools:ignore="TextContrastCheck" />
-                </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/layout_special"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="25dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:elevation="5dp"
-                    android:background="@color/white"
-                    tools:ignore="UselessLeaf">
+                        <TextView
+                            android:id="@+id/tv_name_in_home"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text='@{@string/hello + " " + header.name.split(" ")[0] + ","}'
+                            android:textColor="@color/white"
+                            android:textSize="25sp"
+                            android:textStyle="bold|normal"
+                            tools:ignore="TextContrastCheck" />
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_special"
-                        tools:ignore="ContentDescription,ImageContrastCheck" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="bottom"
+                            android:text="@string/intro_3"
+                            android:textColor="@color/white"
+                            tools:ignore="TextContrastCheck" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/species_uppercase"
-                        android:textColor="@color/background_button"
-                        android:textSize="12sp"
-                        tools:ignore="TextContrastCheck" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_article"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginBottom="25dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:elevation="5dp"
-                    android:background="@color/white">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_article"
-                        tools:ignore="ContentDescription,ImageContrastCheck" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/articles_uppercase"
-                        android:textColor="@color/background_button"
-                        android:textSize="12sp"
-                        tools:ignore="TextContrastCheck" />
-                </LinearLayout>
-            </LinearLayout>
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_avatar_in_home"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        app:layout_constraintDimensionRatio="1:1"
+                        android:background="@mipmap/ic_launcher"
+                        android:scaleType="centerCrop"
+                        loadImageProfile="@{header.avatar}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="@style/ShapeImageStyle_Avatar"
+                        tools:ignore="ImageContrastCheck" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:paddingHorizontal="20dp">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+                android:paddingTop="45dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/plant_types"
-                    android:textSize="16sp"
-                    android:textStyle="bold|normal"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rec_plant_type"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:layout_marginHorizontal="-5dp"
-                    android:layout_marginVertical="20dp"/>
-
-                <com.facebook.shimmer.ShimmerFrameLayout
-                    android:id="@+id/shimmer_plant_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_marginHorizontal="-5dp"
-                    android:layout_marginVertical="20dp">
+                    android:layout_height="110dp"
+                    android:paddingHorizontal="15dp"
+                    tools:ignore="DisableBaselineAlignment,UselessParent">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:id="@+id/layout_identify"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.3"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="@drawable/custom_button_1"
+                        android:elevation="10dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:outlineSpotShadowColor="#00FF96"
+                        android:outlineAmbientShadowColor="#00FF96"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        tools:ignore="RtlSymmetry,UnusedAttribute">
 
-                        <include layout="@layout/shimmer_item_plant_type"/>
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_camera"
+                            tools:ignore="ContentDescription,ImageContrastCheck" />
 
-                        <include layout="@layout/shimmer_item_plant_type"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/identify_uppercase"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            tools:ignore="TextContrastCheck" />
                     </LinearLayout>
-                </com.facebook.shimmer.ShimmerFrameLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/photography"
-                    android:textSize="16sp"
-                    android:textStyle="bold|normal"/>
+                    <LinearLayout
+                        android:id="@+id/layout_special"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:elevation="5dp"
+                        android:background="@color/white"
+                        tools:ignore="UselessLeaf">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rec_photography"
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_special"
+                            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/species_uppercase"
+                            android:textColor="@color/background_button"
+                            android:textSize="12sp"
+                            tools:ignore="TextContrastCheck" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_article"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:elevation="5dp"
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_article"
+                            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/articles_uppercase"
+                            android:textColor="@color/background_button"
+                            android:textSize="12sp"
+                            tools:ignore="TextContrastCheck" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginHorizontal="-10dp"
-                    android:layout_marginVertical="20dp"/>
-            </LinearLayout>
-        </LinearLayout>
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="20dp">
 
-        <TextView
-            android:id="@+id/tv_start_search"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="-25dp"
-            android:background="@drawable/custom_edt_search"
-            android:drawableStart="@drawable/ic_search"
-            android:drawablePadding="20dp"
-            android:gravity="center_vertical"
-            android:hint="@string/search_for_plants"
-            android:importantForAutofill="no"
-            android:paddingHorizontal="25dp"
-            android:textColorHint="@color/text_hint"
-            android:textSize="14sp"
-            android:elevation="5dp"
-            app:drawableTint="@color/text_hint"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-            tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck,TextFields,UseCompatTextViewDrawableXml" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/plant_types"
+                        android:textSize="16sp"
+                        android:textStyle="bold|normal"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rec_plant_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:visibility="gone"
+                        android:orientation="horizontal"
+                        android:layout_marginHorizontal="-5dp"
+                        android:layout_marginVertical="20dp"/>
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmer_plant_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:layout_marginHorizontal="-5dp"
+                        android:layout_marginVertical="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <include layout="@layout/shimmer_item_plant_type"/>
+
+                            <include layout="@layout/shimmer_item_plant_type"/>
+                        </LinearLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/photography"
+                        android:textSize="16sp"
+                        android:textStyle="bold|normal"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rec_photography"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginHorizontal="-10dp"
+                        android:layout_marginVertical="20dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_start_search"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="-25dp"
+                android:background="@drawable/custom_edt_search"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="20dp"
+                android:gravity="center_vertical"
+                android:hint="@string/search_for_plants"
+                android:importantForAutofill="no"
+                android:paddingHorizontal="25dp"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp"
+                android:elevation="5dp"
+                app:drawableTint="@color/text_hint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck,TextFields,UseCompatTextViewDrawableXml" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

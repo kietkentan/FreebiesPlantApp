@@ -57,14 +57,14 @@ class ForgotPasswordFragment : Fragment(), View.OnClickListener {
                     binding.btnSendEmailReset.text = getText(R.string.change_password)
                     binding.btnSendEmailReset.isEnabled = true
                     binding.progressForgot.hide()
-                    toast(state.error)
+                    requireContext().toast(state.error)
                 }
 
                 is UiState.Success -> {
                     binding.btnSendEmailReset.text = getText(R.string.change_password)
                     binding.btnSendEmailReset.isEnabled = true
                     binding.progressForgot.hide()
-                    toast(state.data)
+                    requireContext().toast(state.data)
                     findNavController().navigate(R.id.action_forgotPasswordFragment_to_loginFragment)
                 }
             }
