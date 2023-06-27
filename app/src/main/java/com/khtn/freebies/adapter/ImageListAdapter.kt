@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.khtn.freebies.databinding.ItemImage1Binding
 
 class ImageListAdapter(
-    val onItemClicked: (String) -> Unit
+    val onItemClicked: (String, Int) -> Unit
 ): RecyclerView.Adapter<ImageListAdapter.MyViewHolder>() {
     private var list: MutableList<String> = arrayListOf()
 
@@ -36,7 +36,7 @@ class ImageListAdapter(
     inner class MyViewHolder(private val binding: ItemImage1Binding): RecyclerView.ViewHolder(binding.root) {
         fun bind(uri: String) {
             binding.img = uri
-            binding.ivImage1.setOnClickListener { onItemClicked(uri) }
+            binding.ivImage1.setOnClickListener { onItemClicked(uri, adapterPosition) }
         }
     }
 }

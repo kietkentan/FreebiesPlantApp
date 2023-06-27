@@ -27,9 +27,11 @@ class PlantsListFragment : Fragment() {
     private val adapter by lazy {
         PlantItemAdapter(
             onItemClick = { plant ->
-                findNavController().navigate(R.id.action_plantsListFragment_to_plantDetailFragment, Bundle().apply {
-                    putParcelable("plant", plant)
-                })
+                findNavController().navigate(
+                    R.id.action_plantsListFragment_to_plantDetailFragment,
+                    Bundle().apply {
+                        putString(AppConstant.PLANT, plant.id)
+                    })
             }
         )
     }
@@ -67,7 +69,7 @@ class PlantsListFragment : Fragment() {
     }
 
     private fun oberver(){
-        viewModel.plans.observe(viewLifecycleOwner) { state ->
+        viewModel.plansList.observe(viewLifecycleOwner) { state ->
             when(state){
                 is UiState.Loading -> {
                     binding.recPlant.hide()

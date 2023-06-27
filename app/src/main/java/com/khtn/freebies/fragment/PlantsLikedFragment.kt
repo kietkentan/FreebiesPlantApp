@@ -1,7 +1,6 @@
 package com.khtn.freebies.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,24 +11,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.khtn.freebies.R
 import com.khtn.freebies.adapter.PlantItemAdapter
 import com.khtn.freebies.databinding.FragmentPlantLikedBinding
+import com.khtn.freebies.helper.AppConstant
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.helper.deepEqualTo
 import com.khtn.freebies.helper.hide
 import com.khtn.freebies.helper.show
 import com.khtn.freebies.helper.toast
-import com.khtn.freebies.viewmodel.PlantLikedViewModel
+import com.khtn.freebies.viewmodel.PlantViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PlantsLikedFragment : Fragment() {
+class PlantsLikedFragment: Fragment() {
     private lateinit var binding: FragmentPlantLikedBinding
-    private val viewModel: PlantLikedViewModel by viewModels()
+    private val viewModel: PlantViewModel by viewModels()
 
     private val adapter by lazy {
         PlantItemAdapter(
             onItemClick = { plant ->
                 findNavController().navigate(R.id.action_profileFragment_to_plantDetailFragment, Bundle().apply {
-                    putParcelable("plant", plant)
+                    putString(AppConstant.PLANT, plant.id)
                 })
             }
         )
@@ -44,7 +44,10 @@ class PlantsLikedFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
         observe()
 
@@ -54,7 +57,6 @@ class PlantsLikedFragment : Fragment() {
     }
 
     override fun onResume() {
-        Log.i("TAG_U", "onResume: ")
         super.onResume()
         viewModel.getSession {
             it?.id?.let { it1 -> viewModel.getListPlantLiked(it1) }

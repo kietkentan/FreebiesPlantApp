@@ -12,8 +12,6 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip

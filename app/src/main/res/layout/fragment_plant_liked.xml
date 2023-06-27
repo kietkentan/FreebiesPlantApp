@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="85dp"
     android:background="@color/background"
     tools:context=".fragment.PlantsLikedFragment">
 
@@ -30,5 +31,4 @@
             <include layout="@layout/shimmer_item_plant"/>
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
-
 </FrameLayout>

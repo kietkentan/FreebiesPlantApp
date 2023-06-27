@@ -49,6 +49,66 @@ class PlantRepoImp(
             }
     }
 
+    override fun getSiglePlant(
+        plantId: String,
+        result: (UiState<Plant>) -> Unit
+    ) {
+        plantCollection
+            .document(plantId)
+            .get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val plant = it.result.toObject(Plant::class.java)!!
+                    result.invoke(UiState.Success(plant))
+                }
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun getListPlantLiked(
+        id: String,
+        result: (UiState<List<Plant>>) -> Unit
+    ) {
+        followingCollection
+            .document(id)
+            .get()
+            .addOnSuccessListener {
+                val request = it.data
+                if (request != null) {
+                    val list = (request[FireStoreCollection.PLANT] ?: listOf<String>()) as List<String>
+
+                    if (list.isNotEmpty())
+                        getPlant(list) { state ->
+                            result.invoke(state)
+                        }
+                }
+                result.invoke(UiState.Success(listOf()))
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
+    }
+
+    private fun getPlant(listId: List<String>, result: (UiState<List<Plant>>) -> Unit) {
+        plantCollection
+            .whereIn(FireStoreCollection.ID, listId)
+            .get()
+            .addOnSuccessListener {
+                val list: MutableList<Plant> = mutableListOf()
+                for (document in it) {
+                    val plant: Plant = document.toObject(Plant::class.java)
+                    list.add(plant)
+                }
+                result.invoke(UiState.Success(list))
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
+    }
+
     override fun addPlant(
         plant: Plant,
         result: (UiState<Pair<Plant, String>>) -> Unit

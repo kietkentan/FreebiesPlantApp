@@ -47,4 +47,6 @@ object WorkerConstants {
 object AppConstant {
     const val PLANT = "plant"
     const val SPECIES = "species"
+    const val ARTICES = "articles"
+    const val LIST_IMAGE = "list_image"
 }

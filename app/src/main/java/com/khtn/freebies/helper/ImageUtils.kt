@@ -27,7 +27,12 @@ object ImageUtils {
     const val FROM_GALLERY_MAIN = 116
     const val TAKE_PHOTO_HOME = 111
     const val FROM_GALLERY_PROFILE = 120
+    const val FROM_GALLERY_ADDING_NEW = 121
     const val TAKE_PHOTO_PROFILE = 124
+    const val TAKE_PHOTO_ADDING_NEW = 125
+
+    const val IN_PROFILE = 10
+    const val IN_ADDING_NEW = 11
 
     private var photoUri: Uri? = null
 
@@ -37,6 +42,8 @@ object ImageUtils {
                 ImageOptions.CHOSE_GALLERY -> chooseGallery(context.requireActivity(), true, FROM_GALLERY_MAIN)
 
                 ImageOptions.TAKE_PHOTO -> takePhoto(context.requireActivity(), TAKE_PHOTO_HOME)
+
+                else -> showCameraOptions(context, true, option)
             }
         }
     }
@@ -48,11 +55,6 @@ object ImageUtils {
         }
     }
 
-    fun askPermission(context: Fragment) {
-        if (checkStoragePermission(context.requireActivity()))
-            showCameraOptions(context, false)
-    }
-
     private fun checkStoragePermission(context: Activity): Boolean {
         return checkPermission(
             context,
@@ -62,14 +64,23 @@ object ImageUtils {
         )
     }
 
-    private fun showCameraOptions(context: Fragment, isMultiple: Boolean) {
+    private fun showCameraOptions(context: Fragment, isMultiple: Boolean, option: Int) {
         photoUri = null
         val builder = DialogImageResourceSheet.newInstance(Bundle())
         builder.addListener(object : SheetListener {
             override fun selectedItem(index: Int) {
                 when (index) {
-                    ImageOptions.TAKE_PHOTO -> takePhoto(context.requireActivity(), TAKE_PHOTO_PROFILE)
-                    ImageOptions.CHOSE_GALLERY -> chooseGallery(context.requireActivity(), isMultiple, FROM_GALLERY_PROFILE)
+                    ImageOptions.TAKE_PHOTO -> takePhoto(
+                        context = context.requireActivity(),
+                        reqCode = if (option == IN_PROFILE) TAKE_PHOTO_PROFILE else TAKE_PHOTO_ADDING_NEW
+                    )
+
+                    ImageOptions.CHOSE_GALLERY -> chooseGallery(
+                        context = context.requireActivity(),
+                        isMultiple = isMultiple,
+                        reqCode = if (option == IN_PROFILE) FROM_GALLERY_PROFILE else FROM_GALLERY_ADDING_NEW
+                    )
+
                     ImageOptions.CANCEL -> return
                 }
             }

@@ -92,13 +92,6 @@ object FirebaseModule {
         return firestore.collection(FireStoreCollection.ARTICLE)
     }
 
-    @BookMarkCollection
-    @Singleton
-    @Provides
-    fun provideBookMarkCollectionReference(firestore: FirebaseFirestore): CollectionReference {
-        return firestore.collection(FireStoreCollection.BOOK_MARK)
-    }
-
     @Provides
     @Singleton
     fun provideFirebaseAuthInstance(): FirebaseAuth {

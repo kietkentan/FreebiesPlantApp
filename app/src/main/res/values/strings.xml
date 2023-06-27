@@ -59,4 +59,10 @@
     <string name="select_from_your_device">Select from your device</string>
     <string name="cancel">Cancel</string>
     <string name="upload_sucess">Upload success</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="save">Save</string>
+    <string name="add_picture">Add picture</string>
+    <string name="remove_picture">Remove picture</string>
+    <string name="remove_all_picture">Remove all picture</string>
 </resources>

@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_homeFragment_to_articlesListFragment"
             app:destination="@id/articlesListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addingNewPlantFragment"
+            app:destination="@id/addingNewPlantFragment" />
     </fragment>
 
     <fragment
@@ -88,10 +91,8 @@
         android:name="com.khtn.freebies.fragment.PlantDetailFragment"
         android:label="fragment_plant_detail"
         tools:layout="@layout/fragment_plant_detail" >
-        <action
-            android:id="@+id/action_plantDetailFragment_to_plantsListFragment"
-            app:destination="@id/plantsListFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.khtn.freebies.fragment.ProfileFragment"
@@ -100,7 +101,14 @@
         <action
             android:id="@+id/action_profileFragment_to_plantDetailFragment"
             app:destination="@id/plantDetailFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_articlesDetailFragment"
+            app:destination="@id/articlesDetailFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_addingNewPlantFragment"
+            app:destination="@id/addingNewPlantFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/articlesListFragment"
         android:name="com.khtn.freebies.fragment.ArticlesListFragment"
@@ -108,5 +116,18 @@
         <action
             android:id="@+id/action_articlesListFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_articlesListFragment_to_articlesDetailFragment"
+            app:destination="@id/articlesDetailFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/articlesDetailFragment"
+        android:name="com.khtn.freebies.fragment.ArticlesDetailFragment"
+        android:label="ArticlesDetailFragment" />
+
+    <fragment
+        android:id="@+id/addingNewPlantFragment"
+        android:name="com.khtn.freebies.fragment.AddingNewPlantFragment"
+        android:label="AddingNewPlantFragment" />
 </navigation>

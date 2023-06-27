@@ -2,11 +2,24 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="detail"
-            type="com.khtn.freebies.module.Plant" />
+            type="com.khtn.freebies.module.Articles" />
+
+        <variable
+            name="user"
+            type="com.khtn.freebies.module.User" />
+
+        <variable
+            name="time"
+            type="String" />
+
+        <variable
+            name="myId"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +44,7 @@
                 tools:ignore="ContentDescription,ImageContrastCheck" />
 
             <ImageButton
-                android:id="@+id/ib_exit_plant_detail"
+                android:id="@+id/ib_exit_articles_detail"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
@@ -110,99 +123,98 @@
             tools:layout_editor_absoluteX="155dp">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/tags_plant_detail"
+                android:id="@+id/tags_articles_detail"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 addTags="@{detail.tags}"
                 android:layout_marginVertical="20dp" />
 
             <TextView
-                android:id="@+id/tv_name_plant_detail"
+                android:id="@+id/tv_name_articles_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/name_plant"
-                android:text="@{detail.name}"
-                android:textSize="27sp"
+                android:text="@{detail.title}"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="30dp"
-                android:baselineAligned="false"
+                android:id="@+id/layout_user_articles"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:visibility="gone"
+                android:layout_marginVertical="10dp"
                 android:orientation="horizontal">
 
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    loadImage="@{user.avatar}"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/ShapeImageStyle_Avatar"/>
+
                 <LinearLayout
-                    android:id="@+id/layout_kingdom_detail"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    checkNull="@{detail.kingdom}"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="10dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/kingdom"
-                        android:textAllCaps="true"
-                        android:textColor="@color/info_text"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:lines="1"
+                        android:textSize="12sp"
+                        android:text="@{user.name}"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/name_plant"/>
 
                     <TextView
-                        android:id="@+id/tv_kingdom_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@{detail.kingdom}"
-                        android:textColor="@color/alphabet_item"
-                        android:textSize="12sp" />
+                        android:textColor="@color/big_tag"
+                        android:gravity="center_vertical"
+                        android:text="@{time}"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_family_detail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    checkNull="@{detail.family}"
-                    android:orientation="vertical">
+                    android:id="@+id/btn_follow"
+                    android:layout_width="73dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/button_not_follow"
+                    android:orientation="horizontal"
+                    android:visibility="@{myId.equals(user.id) ? View.GONE : View.VISIBLE}"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center">
+                    
+                    <ImageView
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
+                        android:src="@drawable/ic_add"
+                        app:tint="@color/white"
+                        tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/family"
-                        android:textAllCaps="true"
-                        android:textColor="@color/info_text"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_family_detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@{detail.family}"
-                        android:textColor="@color/alphabet_item"
-                        android:textSize="12sp" />
+                        android:layout_marginStart="5dp"
+                        android:text="@string/follow"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        tools:ignore="SmallSp" />
                 </LinearLayout>
             </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/description"
-                android:textAllCaps="true"
-                android:textColor="@color/info_text"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_description_plant_detail"
+                android:id="@+id/tv_content_articles_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:lineSpacingExtra="10dp"
-                android:text="@{detail.description}"
+                android:text="@{detail.content}"
                 android:textColor="@color/alphabet_item"
                 android:textSize="14sp" />
         </LinearLayout>

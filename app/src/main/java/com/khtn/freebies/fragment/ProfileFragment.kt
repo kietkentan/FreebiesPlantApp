@@ -3,6 +3,7 @@ package com.khtn.freebies.fragment
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,7 @@ import com.khtn.freebies.viewmodel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment() {
+class ProfileFragment: Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var tabMedicator: TabLayoutMediator
     private val authViewModel: AuthViewModel by viewModels()
@@ -39,6 +40,7 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.i("TAG_U", "onCreateView: ")
         binding = FragmentProfileBinding.inflate(inflater)
 
         addView()
@@ -49,11 +51,12 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i("TAG_U", "onViewCreated: ")
         observe()
 
         binding.viewPagerOnprofile.adapter = ViewPagerAdapter(
             fragmentList,
-            parentFragmentManager,
+            childFragmentManager,
             lifecycle
         )
         binding.viewPagerOnprofile.currentItem = currentItem
@@ -107,13 +110,8 @@ class ProfileFragment : Fragment() {
 
     private fun clickView() {
         binding.ivAvatarInProfile.setOnClickListener {
-            ImageUtils.askPermission(this)
+            ImageUtils.askPermission(this, ImageUtils.IN_PROFILE)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        fragmentList[currentItem].onResume()
     }
 
     private fun observe(){

@@ -1,6 +1,5 @@
 package com.khtn.freebies.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +7,6 @@ import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.module.Plant
 import com.khtn.freebies.module.Species
 import com.khtn.freebies.module.User
-import com.khtn.freebies.module.UserAccountSetting
 import com.khtn.freebies.repo.PlantRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -17,22 +15,44 @@ import javax.inject.Inject
 class PlantViewModel @Inject constructor(
     private val plantRepo: PlantRepo
 ): ViewModel() {
-    private val _plants = MutableLiveData<UiState<MutableList<Plant>>>()
-    val plans: LiveData<UiState<MutableList<Plant>>>
-        get() = _plants
+    private val _plant = MutableLiveData<UiState<Plant>>()
+    val plant: LiveData<UiState<Plant>>
+        get() = _plant
+
+    private val _plantsList = MutableLiveData<UiState<MutableList<Plant>>>()
+    val plansList: LiveData<UiState<MutableList<Plant>>>
+        get() = _plantsList
 
     private val _isFavorite = MutableLiveData<UiState<Boolean>>()
     val isFavorite: LiveData<UiState<Boolean>>
         get() = _isFavorite
+
+    private val _plantLiked = MutableLiveData<UiState<List<Plant>>>()
+    val plantLiked: LiveData<UiState<List<Plant>>>
+        get() = _plantLiked
 
     fun getSession(result: (User?) -> Unit){
         plantRepo.getSession(result)
     }
 
     fun getPlansForSpecie(species: Species) {
-        _plants.value = UiState.Loading
+        _plantsList.value = UiState.Loading
         plantRepo.getPlantsForSpecie(species) {
-            _plants.value = it
+            _plantsList.value = it
+        }
+    }
+
+    fun getPlant(plantId: String) {
+        _plant.value = UiState.Loading
+        plantRepo.getSiglePlant(plantId) {
+            _plant.value = it
+        }
+    }
+
+    fun getListPlantLiked(id: String) {
+        _plantLiked.value = UiState.Loading
+        plantRepo.getListPlantLiked(id) {
+            _plantLiked.value = it
         }
     }
 

@@ -10,9 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.khtn.freebies.R
 import com.khtn.freebies.adapter.ArticlesItemAdapter
 import com.khtn.freebies.databinding.FragmentArticlesListBinding
+import com.khtn.freebies.helper.AppConstant
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.helper.hide
 import com.khtn.freebies.helper.hideKeyboard
@@ -36,7 +39,15 @@ class ArticlesListFragment : Fragment() {
     private val adapter by lazy {
         ArticlesItemAdapter(
             onItemClick = { articles ->
-
+                findNavController().navigate(R.id.action_articlesListFragment_to_articlesDetailFragment, Bundle().apply {
+                    putString(AppConstant.ARTICES, articles.id)
+                })
+            },
+            onFavoriteClick = { articlesId, isLiked ->
+                handleFavoriteClicked(articlesId, isLiked)
+            },
+            onBookMarkClick = { articlesId, isLiked ->
+                handleBookMarkClicked(articlesId, isLiked)
             }
         )
     }
@@ -90,7 +101,7 @@ class ArticlesListFragment : Fragment() {
             }
         }
 
-        viewModel.getUser.observe(viewLifecycleOwner) {
+        viewModel.getUsersList.observe(viewLifecycleOwner) {
             if (it is UiState.Success)
                 adapter.updateListUser(it.data)
         }
@@ -104,6 +115,34 @@ class ArticlesListFragment : Fragment() {
             if (it is UiState.Success)
                 adapter.updateMapBookMark(it.data)
         }
+
+        viewModel.updateSigleBookMark.observe(viewLifecycleOwner) {
+            Log.i("TAG_U", "oberverBookMark: $it")
+            if (it is UiState.Success) {
+                val map = adapter.getMapBookMark()
+                map[it.data.first] = it.data.second
+                adapter.updateMapBookMark(map)
+            }
+        }
+
+        viewModel.updateSingleFavorite.observe(viewLifecycleOwner) {
+            Log.i("TAG_U", "oberverFavorite: $it")
+            if (it is UiState.Success) {
+                val map = adapter.getMapFavorite()
+                map[it.data.first] = it.data.second
+                adapter.updateMapFavorite(map)
+            }
+        }
+    }
+
+    private fun handleFavoriteClicked(articlesId: String, isLiked: Boolean) {
+        if (isLiked) viewModel.removeSingleFavoriteArticles(id, articlesId)
+        else viewModel.addSingleFavoritePlant(id, articlesId)
+    }
+
+    private fun handleBookMarkClicked(articlesId: String, isLiked: Boolean) {
+        if (isLiked) viewModel.removeSingleBookMarkArticles(id, articlesId)
+        else viewModel.addSingleBookMarkArticles(id, articlesId)
     }
 
     private fun fetchUser() {

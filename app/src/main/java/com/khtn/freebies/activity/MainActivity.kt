@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.khtn.freebies.R
 import com.khtn.freebies.databinding.ActivityMainBinding
+import com.khtn.freebies.helper.AppConstant
 import com.khtn.freebies.helper.ImageOptions
 import com.khtn.freebies.helper.ImageUtils
 import com.khtn.freebies.helper.hide
@@ -28,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private val uriList = mutableListOf<Uri>()
+    private val uriList = arrayListOf<String>()
 
     var statusBar = 0
     private var doubleBackPress: Boolean = false
@@ -120,16 +121,26 @@ class MainActivity : AppCompatActivity() {
             if (data?.clipData != null) {
                 val count: Int = data.clipData!!.itemCount
                 for (i in 0 until count) {
-                    val tempUri: Uri = data.clipData!!.getItemAt(i).uri
+                    val tempUri = data.clipData!!.getItemAt(i).uri.toString()
                     uriList.add(tempUri)
                 }
             } else if (data?.data != null) {
-                val tempUri: Uri = data.data!!
+                val tempUri = data.data.toString()
                 uriList.add(tempUri)
             }
 
             if (uriList.size > 0) {
-                Log.i("TAG_U", "onActivityResult: ${uriList}")
+                if (navController.isValidDestination(R.id.homeFragment)) {
+                    navController.navigate(R.id.action_homeFragment_to_addingNewPlantFragment,
+                        Bundle().apply {
+                            putStringArrayList(AppConstant.LIST_IMAGE, uriList)
+                        })
+                } else if (navController.isValidDestination(R.id.profileFragment)) {
+                    navController.navigate(R.id.action_profileFragment_to_addingNewPlantFragment,
+                        Bundle().apply {
+                            putStringArrayList(AppConstant.LIST_IMAGE, uriList)
+                        })
+                }
             }
         } else {
             val navHostFragment = supportFragmentManager.fragments.first() as? NavHostFragment
@@ -194,6 +205,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showView() {
         binding.bottomAppBar.show()
+        binding.bottomAppBar.apply {
+            if (isScrolledDown) performShow()
+        }
         binding.btnOpenGallery.show()
     }
 

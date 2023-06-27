@@ -52,16 +52,11 @@ annotation class ArticlesCollection
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class BookMarkCollection
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
 annotation class AvatarStorage
 
 @InstallIn(SingletonComponent::class)
 @Module
 object AppModule {
-
     @Provides
     @Singleton
     fun provideSharedPref(@ApplicationContext context: Context): SharedPreferences {

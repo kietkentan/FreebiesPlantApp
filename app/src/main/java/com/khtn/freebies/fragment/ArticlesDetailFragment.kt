@@ -1,28 +1,35 @@
 package com.khtn.freebies.fragment
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.khtn.freebies.R
 import com.khtn.freebies.adapter.ImageListAdapter
-import com.khtn.freebies.databinding.FragmentPlantDetailBinding
-import com.khtn.freebies.helper.*
-import com.khtn.freebies.viewmodel.PlantViewModel
+import com.khtn.freebies.databinding.FragmentArticlesDetailBinding
+import com.khtn.freebies.helper.AppConstant
+import com.khtn.freebies.helper.ImageUtils
+import com.khtn.freebies.helper.Time
+import com.khtn.freebies.helper.UiState
+import com.khtn.freebies.helper.dpToPx
+import com.khtn.freebies.helper.hide
+import com.khtn.freebies.helper.show
+import com.khtn.freebies.helper.toast
+import com.khtn.freebies.viewmodel.ArticlesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PlantDetailFragment: Fragment() {
-    private lateinit var binding: FragmentPlantDetailBinding
-    private val viewModel: PlantViewModel by viewModels()
+class ArticlesDetailFragment: Fragment() {
+    private lateinit var binding: FragmentArticlesDetailBinding
+    private val viewModel: ArticlesViewModel by viewModels()
     private var imageUris: MutableList<String> = arrayListOf()
     private var isFavorite: Boolean = false
     private var id: String = ""
-    private var plantId: String = ""
+    private var articlesId: String = ""
     private val adapterImage by lazy {
         ImageListAdapter(
             onItemClicked = { uri, _ ->
@@ -36,7 +43,7 @@ class PlantDetailFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPlantDetailBinding.inflate(inflater)
+        binding = FragmentArticlesDetailBinding.inflate(inflater)
         return binding.root
     }
 
@@ -51,16 +58,19 @@ class PlantDetailFragment: Fragment() {
     }
 
     private fun observe() {
-        viewModel.plant.observe(viewLifecycleOwner) { state ->
+        viewModel.articles.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
                     binding.detail = state.data
                     setupImageReview(state.data.images)
+                    viewModel.getSingleUser(state.data.createBy)
+                    binding.time = Time.formatMilliToTimeDate(state.data.createAt)
 
                     viewModel.getSession {
                         it?.let {
-                            viewModel.checkFavoritePlant(it.id, plantId)
+                            viewModel.checkSingleFavoriteArticles(it.id, articlesId)
                             id = it.id
+                            binding.myId = it.id
                         }
                     }
                 }
@@ -69,7 +79,7 @@ class PlantDetailFragment: Fragment() {
             }
         }
 
-        viewModel.isFavorite.observe(viewLifecycleOwner) { state ->
+        viewModel.updateSingleFavorite.observe(viewLifecycleOwner) { state ->
             when(state) {
                 is UiState.Loading -> {
                     binding.ivFavorite.hide()
@@ -84,9 +94,27 @@ class PlantDetailFragment: Fragment() {
 
                 is UiState.Success -> {
                     @Suppress("DEPRECATION")
-                    binding.ivFavorite.setBackgroundColor(resources.getColor(if (state.data) R.color.liked else R.color.not_like))
-                    binding.ivFavorite.show()
-                    isFavorite = state.data
+
+                    if (articlesId == state.data.first) {
+                        binding.ivFavorite.setBackgroundColor(resources.getColor(if (state.data.second) R.color.liked else R.color.not_like))
+                        binding.ivFavorite.show()
+                        isFavorite = state.data.second
+                    }
+                }
+            }
+        }
+
+        viewModel.getUser.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {}
+
+                is UiState.Failure -> {}
+
+                is UiState.Success -> {
+                    if (state.data != null) {
+                        binding.layoutUserArticles.show()
+                        binding.user = state.data
+                    } else binding.layoutUserArticles.hide()
                 }
             }
         }
@@ -94,17 +122,17 @@ class PlantDetailFragment: Fragment() {
 
     @Suppress("DEPRECATION")
     private fun updateUI() {
-        plantId = arguments?.getString(AppConstant.PLANT) ?: ""
+        articlesId = arguments?.getString(AppConstant.ARTICES) ?: ""
         binding.recListReview.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.recListReview.adapter = adapterImage
 
         binding.ivSeeMore.alpha = 0.8F
 
-        if (plantId.isNotEmpty()) {
-            viewModel.getPlant(plantId)
+        if (articlesId.isNotEmpty()) {
+            viewModel.getArticles(articlesId)
         }
 
-        binding.ibExitPlantDetail.setOnClickListener {
+        binding.ibExitArticlesDetail.setOnClickListener {
             requireActivity().onContentChanged()
             requireActivity().onBackPressed()
         }
@@ -144,10 +172,8 @@ class PlantDetailFragment: Fragment() {
     }
 
     private fun handleFavoriteUpdate() {
-        if (isFavorite)
-            viewModel.removeFavoritePlant(id, plantId)
-        else
-            viewModel.addFavoritePlant(id, plantId)
+        if (isFavorite) viewModel.removeSingleFavoriteArticles(id, articlesId)
+        else viewModel.addSingleFavoritePlant(id, articlesId)
     }
 
     private fun setupImageReview(list: List<String>) {

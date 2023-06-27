@@ -64,28 +64,18 @@ object RepoModule {
 
     @Provides
     @Singleton
-    fun providePlantLikedRepository(
-        @FollowingCollection followingCollection: CollectionReference,
-        @PlantCollection plantCollection: CollectionReference
-    ): PlantLikedRepo {
-        return PlantLikedRepoImp(followingCollection, plantCollection)
-    }
-
-    @Provides
-    @Singleton
     fun provideArticlesRepository(
         @ArticlesCollection articlesCollection: CollectionReference,
         @UserCollection userCollection: CollectionReference,
         @FollowingCollection followingCollection: CollectionReference,
         @FollowerCollection followerCollection: CollectionReference,
-        @BookMarkCollection bookMarkCollection: CollectionReference,
         appPreferences: SharedPreferences,
         gson: Gson
     ): ArticlesRepo {
         return ArticlesRepoImp(
             articlesCollection, userCollection,
             followingCollection, followerCollection,
-            bookMarkCollection, appPreferences, gson
+            appPreferences, gson
         )
     }
 }

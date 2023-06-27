@@ -17,6 +17,7 @@ import com.khtn.freebies.R
 import com.khtn.freebies.adapter.PhotographyAdapter
 import com.khtn.freebies.adapter.PlantTypeAdapter
 import com.khtn.freebies.databinding.FragmentHomeBinding
+import com.khtn.freebies.helper.AppConstant
 import com.khtn.freebies.helper.ImageOptions
 import com.khtn.freebies.helper.ImageUtils
 import com.khtn.freebies.helper.UiState
@@ -81,7 +82,14 @@ class HomeFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ImageUtils.TAKE_PHOTO_HOME && resultCode == RESULT_OK) {
-            Log.i("TAG_U", "onActivityResult: ${ImageUtils.getPhotoUri(data)}")
+            val image = ImageUtils.getPhotoUri(data).toString()
+            if (image.isNotEmpty()) {
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_addingNewPlantFragment,
+                    Bundle().apply {
+                        putStringArrayList(AppConstant.LIST_IMAGE, arrayListOf(image))
+                    })
+            }
         }
     }
 
