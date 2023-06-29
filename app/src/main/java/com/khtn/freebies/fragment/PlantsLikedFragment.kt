@@ -69,17 +69,28 @@ class PlantsLikedFragment: Fragment() {
                 is UiState.Loading -> {
                     binding.recListPlantLiked.hide()
                     binding.shimmerPlantList.show()
+                    binding.tvNotFavorite.hide()
                     binding.shimmerPlantList.startShimmer()
                 }
 
-                is UiState.Failure -> requireContext().toast(state.error)
+                is UiState.Failure -> {
+                    requireContext().toast(state.error)
+                    binding.tvNotFavorite.show()
+                }
 
                 is UiState.Success -> {
                     binding.shimmerPlantList.stopShimmer()
-                    binding.shimmerPlantList.hide()
                     binding.recListPlantLiked.show()
+                    if (state.data.isEmpty()) {
+                        binding.tvNotFavorite.show()
+                        binding.recListPlantLiked.hide()
+                    } else {
+                        binding.tvNotFavorite.hide()
+                        binding.recListPlantLiked.show()
+                    }
                     if (!adapter.getList().deepEqualTo(state.data))
                         adapter.updateList(state.data.toMutableList())
+                    binding.shimmerPlantList.hide()
                 }
             }
         }

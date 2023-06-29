@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -19,6 +21,7 @@ import com.khtn.freebies.helper.AppConstant
 import com.khtn.freebies.helper.ImageOptions
 import com.khtn.freebies.helper.ImageUtils
 import com.khtn.freebies.helper.hide
+import com.khtn.freebies.helper.hideKeyboard
 import com.khtn.freebies.helper.isValidDestination
 import com.khtn.freebies.helper.show
 import com.khtn.freebies.helper.toast

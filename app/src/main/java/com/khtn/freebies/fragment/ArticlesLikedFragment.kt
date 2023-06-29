@@ -105,20 +105,30 @@ class ArticlesFragment : Fragment() {
                 is UiState.Loading -> {
                     binding.recListArticlesLiked.hide()
                     binding.shimmerArticlesList.show()
+                    binding.tvNotFavorite.hide()
                     binding.shimmerArticlesList.startShimmer()
                 }
 
-                is UiState.Failure -> requireContext().toast(state.error)
+                is UiState.Failure -> {
+                    requireContext().toast(state.error)
+                    binding.tvNotFavorite.show()
+                }
 
                 is UiState.Success -> {
                     binding.shimmerArticlesList.stopShimmer()
-                    binding.shimmerArticlesList.hide()
-                    binding.recListArticlesLiked.show()
+                    if (state.data.isEmpty()) {
+                        binding.tvNotFavorite.show()
+                        binding.recListArticlesLiked.hide()
+                    } else {
+                        binding.tvNotFavorite.hide()
+                        binding.recListArticlesLiked.show()
+                    }
                     if (!adapter.getListArticles().deepEqualTo(state.data)) {
                         adapter.updateListArticles(state.data.toMutableList())
                         fetchUser(state.data)
                         checkFavorite(state.data)
                     }
+                    binding.shimmerArticlesList.hide()
                 }
             }
         }

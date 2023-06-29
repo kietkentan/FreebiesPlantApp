@@ -52,7 +52,19 @@ annotation class ArticlesCollection
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
+annotation class KingdomCollection
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class FamilyCollection
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
 annotation class AvatarStorage
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class PlantStorage
 
 @InstallIn(SingletonComponent::class)
 @Module

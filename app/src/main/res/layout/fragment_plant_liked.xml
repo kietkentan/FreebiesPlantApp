@@ -31,4 +31,13 @@
             <include layout="@layout/shimmer_item_plant"/>
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <TextView
+        android:id="@+id/tv_not_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="14sp"
+        android:visibility="gone"
+        android:text="@string/don_have_favorite"/>
 </FrameLayout>

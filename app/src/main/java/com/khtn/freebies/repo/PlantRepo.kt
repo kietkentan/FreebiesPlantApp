@@ -11,7 +11,7 @@ interface PlantRepo {
     fun getPlantsForSpecie(species: Species, result: (UiState<MutableList<Plant>>) -> Unit)
     fun getSiglePlant(plantId: String, result: (UiState<Plant>) -> Unit)
     fun getListPlantLiked(id: String, result: (UiState<List<Plant>>) -> Unit)
-    fun addPlant(plant: Plant, result: (UiState<Pair<Plant, String>>) -> Unit)
+    fun addPlant(plant: Plant, result: (UiState<Pair<String, Boolean>>) -> Unit)
     fun updatePlant(plant: Plant, result: (UiState<String>) -> Unit)
     fun deletePlant(plant: Plant, result: (UiState<String>) -> Unit)
     fun uploadSingleFile(uri: Uri, onResult: (UiState<Uri>) -> Unit)

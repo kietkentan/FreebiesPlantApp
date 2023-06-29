@@ -12,6 +12,9 @@ object FireStoreCollection {
     const val FOLLOWER = "follower"
     const val FOLLOWING = "following"
     const val ID = "id"
+    const val KINGDOM = "kingdom"
+    const val FAMILY = "family"
+    const val NAME = "name"
 }
 
 object ImageOptions {
@@ -41,6 +44,8 @@ object FirebaseStorageConstants {
 
 object WorkerConstants {
     const val PROFILE_DATA = "profile_data"
+    const val LIST_IMAGE = "list_image"
+    const val PLANT = "plant"
     const val PROFILE_IMAGE_URL = "profile_image_url"
 }
 

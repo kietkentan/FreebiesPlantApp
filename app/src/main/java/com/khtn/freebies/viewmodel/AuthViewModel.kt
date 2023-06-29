@@ -13,6 +13,7 @@ import com.khtn.freebies.R
 import com.khtn.freebies.helper.UiState
 import com.khtn.freebies.helper.WorkerConstants
 import com.khtn.freebies.helper.toast
+import com.khtn.freebies.module.Plant
 import com.khtn.freebies.module.User
 import com.khtn.freebies.module.UserAccountSetting
 import com.khtn.freebies.module.UserLog
@@ -119,6 +120,8 @@ class AuthViewModel @Inject constructor(
                 getSetting(userAccountSetting.id)
                 context.toast(context.getString(R.string.upload_sucess))
             }
+
+            override fun onSuccess(uiState: UiState<Pair<String, Boolean>>) {}
 
             override fun onFailed(error: String) {
                 _uploadProfile.value = UiState.Failure(error)

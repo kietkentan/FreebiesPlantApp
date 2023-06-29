@@ -4,19 +4,23 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.size
 import androidx.navigation.NavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.khtn.freebies.R
+import com.khtn.freebies.listener.ChipGroupListener
 
 fun View.hide(){
     visibility = View.GONE
@@ -101,15 +105,48 @@ fun ChipGroup.addChip(
     addView(chip)
 }
 
-fun Context.createDialog(layout: Int, cancelable: Boolean): Dialog {
-    val dialog = Dialog(this, android.R.style.Theme_Dialog)
+@SuppressLint("InflateParams")
+fun ChipGroup.addChipAddingPlant(
+    text: String,
+    chipGroupListener: ChipGroupListener,
+    isTouchTargeSize: Boolean = false
+) {
+    val chip: Chip = LayoutInflater.from(context).inflate(R.layout.item_chip_adding, null, false) as Chip
+    chip.text = text
+    chip.setTypeface(chip.typeface, Typeface.BOLD)
+    chip.setEnsureMinTouchTargetSize(isTouchTargeSize)
+
+    if (this.size > 0) {
+        chip.apply {
+            val pos = this@addChipAddingPlant.size - 1
+            setOnCloseIconClickListener {
+                chipGroupListener.onRemoveClickListener(pos)
+                this@addChipAddingPlant.removeView(this)
+            }
+            addView(this, pos)
+        }
+    } else {
+        chip.apply {
+            setCloseIconResource(R.drawable.ic_adding)
+            setOnClickListener {
+                chipGroupListener.onNewClickListener()
+            }
+            addView(this@apply)
+        }
+    }
+}
+
+fun Context.createBottomDialog(layout: Int, cancelable: Boolean = true): Dialog {
+    val dialog = Dialog(this, R.style.FullScreenDialog)
     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setContentView(layout)
-    dialog.window?.setGravity(Gravity.CENTER)
-    dialog.window?.setLayout(
+    dialog.window!!.setGravity(Gravity.BOTTOM)
+    val layoutParams = dialog.window!!.attributes
+    dialog.window!!.setLayout(
         WindowManager.LayoutParams.MATCH_PARENT,
         WindowManager.LayoutParams.WRAP_CONTENT
     )
+    dialog.window!!.attributes = layoutParams
     dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     dialog.setCancelable(cancelable)
     return dialog
@@ -126,6 +163,32 @@ val View.keyboardIsVisible: Boolean
 fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+fun Activity.hideKeyBoardNotClearFocus() {
+    val view = this.currentFocus
+    if (view is EditText) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+    }
+}
+
+fun Activity.showSoftKeyboard(view: View) {
+    if (view.requestFocus()) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    }
+}
+
+fun View.getActivity(): Activity? {
+    var context = this.context
+    while (context is ContextWrapper) {
+        if (context is Activity) {
+            return context
+        }
+        context = context.baseContext
+    }
+    return null
 }
 
 val Int.pxToDp: Int

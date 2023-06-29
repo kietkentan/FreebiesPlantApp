@@ -55,7 +55,7 @@ class PlantDetailFragment: Fragment() {
             when (state) {
                 is UiState.Success -> {
                     binding.detail = state.data
-                    setupImageReview(state.data.images)
+                    state.data.images?.let { setupImageReview(it) }
 
                     viewModel.getSession {
                         it?.let {

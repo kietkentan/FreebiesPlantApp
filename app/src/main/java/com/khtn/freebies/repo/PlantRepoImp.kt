@@ -111,9 +111,17 @@ class PlantRepoImp(
 
     override fun addPlant(
         plant: Plant,
-        result: (UiState<Pair<Plant, String>>) -> Unit
+        result: (UiState<Pair<String, Boolean>>) -> Unit
     ) {
-        TODO("Not yet implemented")
+        val document = plantCollection.document()
+        plant.id = document.id
+        document.set(plant)
+            .addOnSuccessListener {
+                result.invoke(UiState.Success(Pair(plant.id!!, true)))
+            }
+            .addOnFailureListener {
+                result.invoke(UiState.Failure(it.localizedMessage))
+            }
     }
 
     override fun updatePlant(

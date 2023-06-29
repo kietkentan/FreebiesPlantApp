@@ -29,6 +29,9 @@
     <string name="sent_mail_reset_successfully">Check your email. Then click on the link in the mailbox to change the password again.</string>
     <string name="full_name">Full Name</string>
     <string name="name_not_empty">Name must not be empty</string>
+    <string name="des_not_empty">Description must not be empty</string>
+    <string name="please_chose_species">Please chose species</string>
+    <string name="list_image_not_empty">Image must not be empty</string>
     <string name="email_not_empty">Email must not be empty</string>
     <string name="email_invalid">Invalid email</string>
     <string name="password_not_empty">Password must not be empty</string>
@@ -51,9 +54,9 @@
     <string name="search_for_species">Search For Species</string>
     <string name="search_for_articles">Search For Articles</string>
     <string name="search_for">Search For</string>
-    <string name="kingdom">kingdom</string>
-    <string name="family">family</string>
-    <string name="description">description</string>
+    <string name="kingdom">Kingdom</string>
+    <string name="family">Family</string>
+    <string name="description">Description</string>
     <string name="camera_not_available">Camera not available</string>
     <string name="take_photo">Take photo</string>
     <string name="select_from_your_device">Select from your device</string>
@@ -65,4 +68,8 @@
     <string name="add_picture">Add picture</string>
     <string name="remove_picture">Remove picture</string>
     <string name="remove_all_picture">Remove all picture</string>
+    <string name="plant_name">Plant Name</string>
+    <string name="enter_new_chip">Enter new chip</string>
+    <string name="error_when_add_plant">Error when adding new plant</string>
+    <string name="don_have_favorite">You don\'t have any favorites yet …</string>
 </resources>
