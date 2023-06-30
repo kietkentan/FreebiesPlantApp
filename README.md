@@ -13,7 +13,7 @@
 - Theo dõi các bài viết về thực vật của những người khác
 - Thêm danh sách yêu thích bài viết, thực vật
 - Thông tin cá nhân
-- Chụp ảnh/Thêm dữ 1 thực vật chưa có trong dữ liệu
+- Chụp ảnh/Thêm mới 1 thực vật
 
 Ui Design: [Tại dây](https://www.figma.com/file/6yPIaQjGsC3lNDMaRxxl4X/Plant-App---K19?node-id=8%3A274&t=EzilWZKWAh0V5I8h-1)
 
