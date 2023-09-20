@@ -1,7 +1,7 @@
 # Plant App
 
 ## Tổng quan
-[Demo}(https://drive.google.com/file/d/1Htbs0uXrqgZiSll1eyEW5aEocKl-oQff/view)
+[Demo](https://drive.google.com/file/d/1Htbs0uXrqgZiSll1eyEW5aEocKl-oQff/view)
 - Test: kietkentan@gmail.com - Kiet123456@
 - Thành viên: 5
 - Mô hình MVVM dùng Kotlin, Firebase (Auth, Storage, Realtime, FireStore), Dagger-Hilt, Navigation, LiveData
